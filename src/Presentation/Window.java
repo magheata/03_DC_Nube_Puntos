@@ -2,14 +2,24 @@
 package Presentation;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class Window {
-    private JPanel panelPrincipal;
-    private JProgressBar barraProgreso;
-    private JPanel panelPuntos;
-    private JPanel panelBotones;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
+public class Window extends JFrame{
+    private PanelControl panelControl;
+    private PanelPuntos panelPuntos;
+    public Window(){
+        initComponents();
+    }
+
+    private void initComponents() {
+        panelControl = new PanelControl();
+        panelPuntos = new PanelPuntos();
+        panelPuntos.setPreferredSize(new Dimension(600, 450));
+
+        this.add(panelControl, BorderLayout.EAST);
+        this.add(new JSeparator(SwingConstants.VERTICAL));
+        this.add(panelPuntos, BorderLayout.WEST);
+        this.setVisible(true);
+        this.setResizable(false);
+    }
 }

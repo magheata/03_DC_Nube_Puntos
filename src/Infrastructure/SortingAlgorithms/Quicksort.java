@@ -20,8 +20,10 @@ public class Quicksort extends Sort{
 
     @Override
     public void sort(Punto[] puntos){
+        duracionTotal = System.nanoTime(); /* Guardamos el momento en el que empieza el proceso*/
         this.puntos = puntos;
         sort(low, high);
+        duracionTotal = System.nanoTime() - duracionTotal; /* Guardamos el momento en el que empieza el proceso*/
     }
 
     private void sort(int low, int high) {

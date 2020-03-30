@@ -1,8 +1,8 @@
 package Infrastructure;
 
 public enum SortingTypes {
-    Quicksort,
+    Bucketsort,
     Javasort,
     Mergesort,
-    Bucketsort
+    Quicksort
 }

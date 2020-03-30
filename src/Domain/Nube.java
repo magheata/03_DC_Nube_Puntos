@@ -4,6 +4,7 @@ package Domain;
 import Domain.Interfaces.INube;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,7 +62,7 @@ public class Nube implements INube {
     }
 
     @Override
-    public ArrayList<Punto[]> splitX(int boundary){
+    public ArrayList<Punto[]> splitX(int cantidad, int boundary){
         ArrayList<Punto[]> puntosSeparados = new ArrayList<>();
         Punto[] xL = new Punto[boundary];
         Punto[] xR = new Punto[cantidad - boundary];
@@ -89,8 +90,54 @@ public class Nube implements INube {
         });
     }
 
+    @Override
+    public Future<Nube> crearNubePuntosRandom (int lower, int upper) {
+        //ThreadLocalRandom generator = ThreadLocalRandom.current();
+        return executor.submit(() -> {
+            for (int i = 0; i < cantidad; i++){
+                setPunto(new Punto(i + 1, lower + (upper - lower) * generator.nextDouble(), lower + (upper - lower) * generator.nextDouble()), i);
+            }
+            return this;
+        });
+    }
+
+    public double[] getCoordenateArray(boolean getCoordenadaX){
+        double [] result = new double[cantidad];
+        for (int i = 0; i < cantidad; i++){
+            if (getCoordenadaX){
+                result[i] = puntos[i].getX();
+            } else {
+                result[i] = puntos[i].getY();
+            }
+        }
+        return result;
+    }
+
     private double generateRandomCoordinate(int media, int desviacion){
         return generator.nextGaussian() * media + desviacion;
+    }
+
+    public static double findAverageUsingStream(double[] array) {
+        return Arrays.stream(array).average().orElse(Double.NaN);
+    }
+
+    public double variance(double a[], int n) {
+        double sum = 0;
+
+        for (int i = 0; i < n; i++)
+            sum += a[i];
+        double mean = sum / (double)n;
+
+        double sqDiff = 0;
+        for (int i = 0; i < n; i++)
+            sqDiff += (a[i] - mean) *
+                    (a[i] - mean);
+
+        return sqDiff / n;
+    }
+
+    public double standardDeviation(double arr[], int n) {
+        return Math.sqrt(variance(arr, n));
     }
 
     public int getMedia() {
@@ -107,5 +154,12 @@ public class Nube implements INube {
 
     public void setDesviacion(int desviacion) {
         this.desviacion = desviacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Nube{" +
+                "puntos=" + Arrays.toString(puntos) +
+                '}';
     }
 }

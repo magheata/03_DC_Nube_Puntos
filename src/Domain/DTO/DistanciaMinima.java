@@ -10,6 +10,12 @@ public class DistanciaMinima {
 
     private double distanciaPuntos;
 
+    public void setTiempoTotal(double tiempoTotal) {
+        this.tiempoTotal = tiempoTotal;
+    }
+
+    private double tiempoTotal;
+
     public DistanciaMinima(Punto punto1, Punto punto2, double distanciaPuntos) {
         this.punto1 = punto1;
         this.punto2 = punto2;

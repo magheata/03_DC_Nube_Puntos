@@ -2,10 +2,10 @@ package Domain.Interfaces;
 
 import Domain.DTO.DistanciaMinima;
 import Domain.Nube;
+import Domain.Punto;
 
 public interface IPuntosService extends Runnable{
-    DistanciaMinima naive(Nube puntos);
-    DistanciaMinima divideConquerOnlogn2(Nube puntos, int n);
-    DistanciaMinima divideConquerOnlogn(Nube puntos, int n);
-    DistanciaMinima divideConquerMixed(Nube puntos, int n);
+    DistanciaMinima naive(Punto[] puntos, int n);
+    DistanciaMinima divideConquerOnlogn2(Punto[] puntos, int n);
+    DistanciaMinima divideConquerOnlogn(Punto[] puntosX, Punto[] puntosY,  int n);
 }
