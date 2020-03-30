@@ -3,9 +3,7 @@
 import Domain.Nube;
 import Infrastructure.PuntosService;
 import Presentation.Graph.Graph;
-import Presentation.Graph.GraphApplication;
 import Presentation.Graph.PlotSettings;
-import Presentation.PanelControl;
 
 import java.awt.*;
 import java.util.concurrent.ExecutionException;
