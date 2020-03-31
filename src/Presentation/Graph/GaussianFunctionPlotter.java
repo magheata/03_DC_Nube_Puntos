@@ -25,7 +25,7 @@ public class GaussianFunctionPlotter {
         return "Gaussian Curve";
     }
 
-    public void plot(Graph graph, Graphics g, int chartWidth, int chartHeight) {
+    public void plot(Graph graph, Graphics g, int chartWidth) {
 
         /**
          * Record the last two points. Plotting works by drawing lines between consecutive points
@@ -69,5 +69,13 @@ public class GaussianFunctionPlotter {
              */
             first = false;
         }
+    }
+
+    public void setStdDeviation(double stdDeviation) {
+        this.stdDeviation = stdDeviation;
+    }
+
+    public void setMean(double mean) {
+        this.mean = mean;
     }
 }

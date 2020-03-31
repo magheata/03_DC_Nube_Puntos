@@ -1,5 +1,5 @@
 /* Created by andreea on 29/03/2020 */
-package Presentation;
+package Presentation.Botones;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +9,7 @@ public abstract class Botones extends JPanel{
     public Botones(){
         this.setLayout(new BorderLayout());
     }
+
     /**
      *
      * @param button
@@ -57,4 +58,5 @@ public abstract class Botones extends JPanel{
         constraintsSeparator.gridy = 1;
         return constraintsSeparator;
     }
+
 }

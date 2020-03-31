@@ -1,33 +1,36 @@
 /* Created by andreea on 29/03/2020 */
-package Presentation;
+package Presentation.Botones;
+
+import Application.DCController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.util.concurrent.Flow;
 
 public class BotonesAlgoritmo extends Botones{
 
     private JButton naiveButton, nlogn2Button, nlognButton;
     public JButton[] botones = {naiveButton, nlogn2Button, nlognButton};
     public String[] nombresBotones = {"O(n^2)", "O((n·logn)^2)", "O(n·logn)"};
-
     private JLabel algoritmoLabel;
 
-    public BotonesAlgoritmo(){
+    private DCController controller;
+
+    public BotonesAlgoritmo(DCController controller){
         super();
+        this.controller = controller;
         algoritmoLabel = new JLabel();
+        algoritmoLabel.setText("COMPLEJIDAD DEL ALGORITMO");
+
         algoritmoLabel.setVisible(true);
         this.add(algoritmoLabel, BorderLayout.NORTH);
         this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
-        algoritmoLabel.setText("COMPLEJIDAD DEL ALGORITMO");
-        for(int i = 0; i < botones.length; i++){
+
+        for (int i = 0; i < botones.length; i++){
             botones[i] = new JButton();
             botones[i].setText(nombresBotones[i]);
-            // Añadimos la imagen correpsondiente a la pieza
             botones[i].addActionListener(e -> {
                 Object source = e.getSource();
                 new Thread(() -> {
@@ -42,6 +45,7 @@ public class BotonesAlgoritmo extends Botones{
             });
             buttonsPanel.add(botones[i]);
         }
+
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
     }

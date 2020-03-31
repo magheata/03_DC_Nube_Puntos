@@ -1,6 +1,10 @@
 /* Created by andreea on 29/03/2020 */
 package Presentation;
 
+import Application.DCController;
+import Presentation.Botones.BotonesAlgoritmo;
+import Presentation.Botones.BotonesGraph;
+import Presentation.Botones.BotonesSorter;
 import Presentation.Graph.Graph;
 import Presentation.Graph.GraphPanel;
 import Presentation.Graph.PlotSettings;
@@ -10,15 +14,23 @@ import java.awt.*;
 
 public class PanelControl extends JPanel {
 
-    public JLabel algoritmoLabel;
-    public JLabel sorterLabel;
-
     public BotonesAlgoritmo botonesAlgoritmoPanel;
     public BotonesSorter botonesSorterPanel;
     public BotonesGraph botonesGraphPanel;
     protected GraphPanel graphPanel;
 
-    public PanelControl(){
+    private DCController controller;
+
+    private int xMinPlotSettings = -20;
+    private int xMaxPlotSettings = 20;
+    private int yMinPlotSettings = 0;
+    private int yMaxPlotSettings = 1;
+
+    private double definedAverage = 0;
+    private double definedVariance = 1;
+
+    public PanelControl(DCController controller){
+        this.controller = controller;
         initComponents();
     }
 
@@ -33,7 +45,7 @@ public class PanelControl extends JPanel {
         constraintsGraphWrapperPanel.gridy = 0;
 
         //region BOTONES ALGORITMO
-        botonesAlgoritmoPanel = new BotonesAlgoritmo();
+        botonesAlgoritmoPanel = new BotonesAlgoritmo(controller);
 
         GridBagConstraints constraintsAlgoritmoPanel = new GridBagConstraints();
         constraintsAlgoritmoPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -44,9 +56,10 @@ public class PanelControl extends JPanel {
         //endregion
 
         //region BOTONES SORTER
-        botonesSorterPanel = new BotonesSorter();
+        botonesSorterPanel = new BotonesSorter(controller);
 
         GridBagConstraints constraintsBotonesSorterPanel = new GridBagConstraints();
+
         constraintsBotonesSorterPanel.fill = GridBagConstraints.HORIZONTAL;
         constraintsBotonesSorterPanel.gridwidth = 3;
         constraintsBotonesSorterPanel.gridx = 0;
@@ -61,23 +74,27 @@ public class PanelControl extends JPanel {
     }
 
     private JPanel addGraphToPanel(){
+
         JPanel graphPanelWrapper = new JPanel();
+
         graphPanelWrapper.setLayout(new GridBagLayout());
 
-        botonesGraphPanel = new BotonesGraph();
+        botonesGraphPanel = new BotonesGraph(controller);
 
-        PlotSettings plotSettings = new PlotSettings(-20, 20, 0, 1);
+        //region GraphPanel
+        PlotSettings plotSettings = new PlotSettings(xMinPlotSettings, xMaxPlotSettings, yMinPlotSettings, yMaxPlotSettings);
         plotSettings.setPlotColor(Color.RED);
         plotSettings.setGridSpacingX(0.5);
         plotSettings.setGridSpacingY(0.5);
 
         graphPanel = new GraphPanel();
-        graphPanel.setGraph(new Graph(plotSettings, 5, 2));
+        controller.setGraphPanel(graphPanel);
+        graphPanel.setGraph(new Graph(plotSettings, definedAverage, definedVariance));
         // default size of the window, the Graph Panel will be slightly smaller.
         graphPanel.setVisible(true);
+        //endregion
 
-        BotonesGraph botonesGraph = new BotonesGraph();
-
+        //region GridBagConstraints
         GridBagConstraints constraintsGraphButtons = new GridBagConstraints();
         constraintsGraphButtons.fill = GridBagConstraints.HORIZONTAL;
         constraintsGraphButtons.gridwidth = 3;
@@ -92,8 +109,9 @@ public class PanelControl extends JPanel {
         constraintsGraphWrapperPanel.gridheight = 2;
         constraintsGraphWrapperPanel.gridx = 0;
         constraintsGraphWrapperPanel.gridy = 1;
+        //endregion
 
-        graphPanelWrapper.add(botonesGraph, constraintsGraphButtons);
+        graphPanelWrapper.add(botonesGraphPanel, constraintsGraphButtons);
         graphPanelWrapper.add(graphPanel, constraintsGraphWrapperPanel);
         return graphPanelWrapper;
     }

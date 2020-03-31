@@ -1,6 +1,8 @@
 /* Created by andreea on 22/03/2020 */
 package Presentation;
 
+import Application.DCController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,9 +14,11 @@ public class Window extends JFrame{
     }
 
     private void initComponents() {
-        panelControl = new PanelControl();
+        DCController controller = new DCController();
+        panelControl = new PanelControl(controller);
         panelPuntos = new PanelPuntos();
         panelPuntos.setPreferredSize(new Dimension(600, 450));
+        panelControl.setPreferredSize(new Dimension(460, 450));
 
         this.add(panelControl, BorderLayout.EAST);
         this.add(new JSeparator(SwingConstants.VERTICAL));

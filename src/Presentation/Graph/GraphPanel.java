@@ -3,9 +3,11 @@ package Presentation.Graph;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /* Created by andreea on 29/03/2020 */
-public class GraphPanel extends JPanel {
+public class GraphPanel extends JPanel implements PropertyChangeListener {
 
     /**
      * The graph object renders charts and graphs.
@@ -20,7 +22,7 @@ public class GraphPanel extends JPanel {
     protected Dimension dimensiones;
 
     public GraphPanel(){
-        dimensiones = new Dimension(300, 150);
+        dimensiones = new Dimension(450, 150);
     }
     /**
      * Initialises the panel with a graph object
@@ -30,13 +32,17 @@ public class GraphPanel extends JPanel {
         repaint();
     }
 
+    public void updateGraphWithNewValues(double mean, double stdDeviation){
+        graph.updateGraphValues(mean, stdDeviation);
+        repaint();
+    }
+
     /**
      * Draws the graph directly onto the JPanel
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (graph != null) graph.draw(g, dimensiones.width, dimensiones.height);
-        //if (graph != null) graph.draw(g, 50, 60);
     }
 
     @Override
@@ -69,10 +75,12 @@ public class GraphPanel extends JPanel {
         return graph;
     }
 
-
     public void setGraphPanelSize(int width, int height){
         setSize(width, height);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
+    }
 }

@@ -1,31 +1,28 @@
 /* Created by andreea on 29/03/2020 */
-package Presentation;
+package Presentation.Botones;
+
+import Application.DCController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class BotonesSorter extends Botones{
 
     private JButton quicksortButton, mergesortButton, javasortButton;
-    public JButton[] botones = {quicksortButton, mergesortButton, javasortButton};
-    public String[] nombresBotones = {"Quicksort", "Mergesort", "Collections.sort()"};
-
+    private JButton[] botones = {quicksortButton, mergesortButton, javasortButton};
+    private String[] nombresBotones = {"Quicksort", "Mergesort", "Collections.sort()"};
     private JLabel sorterLabel;
 
-    public BotonesSorter(){
+    private DCController controller;
+
+    public BotonesSorter(DCController controller){
         super();
-        sorterLabel = new JLabel();
-        sorterLabel.setVisible(true);
-        sorterLabel.setText("ALGORITMO DE ORDENACIÓN");
+        this.controller = controller;
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
-        this.add(sorterLabel, BorderLayout.NORTH);
-        this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
-        for(int i = 0; i < botones.length; i++){
+        for (int i = 0; i < botones.length; i++){
             botones[i] = new JButton();
             botones[i].setText(nombresBotones[i]);
-            // Añadimos la imagen correpsondiente a la pieza
             botones[i].addActionListener(e -> {
                 Object source = e.getSource();
                 new Thread(() -> {
@@ -40,6 +37,13 @@ public class BotonesSorter extends Botones{
             });
             buttonsPanel.add(botones[i]);
         }
+
+        sorterLabel = new JLabel();
+        sorterLabel.setVisible(true);
+        sorterLabel.setText("ALGORITMO DE ORDENACIÓN");
+
+        this.add(sorterLabel, BorderLayout.NORTH);
+        this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
     }

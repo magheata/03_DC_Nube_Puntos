@@ -8,13 +8,17 @@ public class PanelPuntos extends JPanel {
     public JRadioButton generarRandomDistribucionNormalButton;
     public JRadioButton generarRandomButton;
     private ButtonGroup tipoDistribucionButtons;
-
+    private JButton startButton;
+    private boolean isDistribucionGaussiana;
 
     public PanelPuntos(){
         initComponents();
+        isDistribucionGaussiana = false;
     }
 
     private void initComponents(){
+        startButton = new JButton();
+        startButton.setText("Empezar ejecución");
         generarRandomButton = new JRadioButton();
         generarRandomButton.setText("Distribución Aleatoria");
         generarRandomButton.setSelected(true);
@@ -26,8 +30,7 @@ public class PanelPuntos extends JPanel {
         tipoDistribucionButtons.add(generarRandomButton);
         this.add(generarRandomDistribucionNormalButton);
         tipoDistribucionButtons.add(generarRandomDistribucionNormalButton);
-
-        //this.add(tipoDistribucionButtons);
+        this.add(startButton);
         this.setVisible(true);
     }
 }

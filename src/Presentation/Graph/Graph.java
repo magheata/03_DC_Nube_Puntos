@@ -39,6 +39,16 @@ public class Graph {
 
     protected double unitsPerPixelX, unitsPerPixelY;
 
+
+    public void updateGraphValues(double mean, double stdDeviation){
+        if (mean != -99){
+            function.setMean(mean);
+        }
+
+        if (stdDeviation != -99){
+            function.setStdDeviation(stdDeviation);
+        }
+    }
     /**
      * Draws the graph using a graphics object.
      *
@@ -113,7 +123,7 @@ public class Graph {
          * And finally - draw the results of the function onto the chart.
          */
         g.setColor(plotSettings.getPlotColor());
-        function.plot(this, g, chartWidth, chartHeight);
+        function.plot(this, g, chartWidth);
     }
 
     /**
