@@ -15,6 +15,12 @@ public class BotonesSorter extends Botones{
 
     private DCController controller;
 
+    public int getSorterElegido() {
+        return sorterElegido;
+    }
+
+    private int sorterElegido;
+
     public BotonesSorter(DCController controller){
         super();
         this.controller = controller;
@@ -28,7 +34,8 @@ public class BotonesSorter extends Botones{
                 new Thread(() -> {
                     for (int j = 0; j < botones.length; j++) {
                         if (botones[j] == source) {
-                            activarButton(j, botones[j]);
+                            activarButton(botones[j]);
+                            sorterElegido = j;
                         } else {
                             desactivarBoton(botones[j]);
                         }
@@ -46,6 +53,18 @@ public class BotonesSorter extends Botones{
         this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
+    }
+
+    public void disableBotonesSorter(){
+        for(int i = 0; i < botones.length; i++){
+            botones[i].setEnabled(false);
+        }
+    }
+
+    public void enableBotonesSorter(){
+        for(int i = 0; i < botones.length; i++){
+            botones[i].setEnabled(true);
+        }
     }
 }
 

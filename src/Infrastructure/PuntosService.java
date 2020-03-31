@@ -14,6 +14,11 @@ public class PuntosService implements IPuntosService {
     private Sort sorter = null;
     private Thread worker;
     private Nube nubePuntos;
+    private int algoritmoElegido;
+    private boolean isPuntosOrdenados;
+    private ArrayList<Punto[]> arrayPuntosOrdenados;
+    private Punto[] puntosOrdenadosCoordenadaX;
+    private Punto[] puntosOrdenadosCoordenadaY;
 
     public void setClaseSort(String p, int low, int high, boolean mirarCoordenadaX) {
         try {
@@ -51,7 +56,40 @@ public class PuntosService implements IPuntosService {
 
     @Override
     public void run() {
-
+        long tiempoTardado;
+        switch (algoritmoElegido){
+            case 0:
+                tiempoTardado = System.currentTimeMillis();
+                System.out.println(">  (SORT): No se usa sorter (ALGORITMO) NAIVE con " + nubePuntos.getCantidad() + " puntos" + "\n" + naive(nubePuntos.getPuntos().clone(), nubePuntos.getCantidad()) + "\n ************");
+                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
+                System.out.println(tiempoTardado);
+                break;
+            case 1:
+                if (!isPuntosOrdenados){
+                    arrayPuntosOrdenados = ordenarPuntosPorCoordenadas(nubePuntos);
+                    puntosOrdenadosCoordenadaX = arrayPuntosOrdenados.get(0);
+                    puntosOrdenadosCoordenadaY = arrayPuntosOrdenados.get(1);
+                    isPuntosOrdenados = true;
+                }
+                tiempoTardado = System.currentTimeMillis();
+                System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() + " (ALGORITMO) Onlogn2 con " + nubePuntos.getCantidad() + " puntos" + "\n" + divideConquerOnlogn2(puntosOrdenadosCoordenadaX.clone(), nubePuntos.getCantidad())+ "\n ************");
+                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
+                System.out.println(tiempoTardado);
+                break;
+            case 2:
+                if (!isPuntosOrdenados){
+                    arrayPuntosOrdenados = ordenarPuntosPorCoordenadas(nubePuntos);
+                    puntosOrdenadosCoordenadaX = arrayPuntosOrdenados.get(0);
+                    puntosOrdenadosCoordenadaY = arrayPuntosOrdenados.get(1);
+                    isPuntosOrdenados = true;
+                }
+                tiempoTardado = System.currentTimeMillis();
+                System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() +" (ALGORITMO) Onlogn con " + nubePuntos.getCantidad() + " puntos" + "\n " + divideConquerOnlogn(puntosOrdenadosCoordenadaX.clone(), puntosOrdenadosCoordenadaY.clone(), nubePuntos.getCantidad())+ "\n ************");
+                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
+                System.out.println(tiempoTardado);
+                break;
+        }
+        /*
         Nube nubePuntosAux = new Nube(6);
 
         Punto[] puntos = new Punto[]{
@@ -65,13 +103,12 @@ public class PuntosService implements IPuntosService {
 
         nubePuntosAux.setPuntos(puntos);
 
-        long tiempoTardado = System.currentTimeMillis();
+        //long tiempoTardado = System.currentTimeMillis();
         System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() + " (ALGORITMO) NAIVE con " + nubePuntos.getCantidad() + " puntos" + "\n" + naive(nubePuntos.getPuntos().clone(), nubePuntos.getCantidad()) + "\n ************");
         tiempoTardado = System.currentTimeMillis() - tiempoTardado;
         System.out.println(tiempoTardado);
 
         ArrayList<Punto[]> arrayPuntosOrdenados = ordenarPuntosPorCoordenadas(nubePuntos);
-
 
         Punto[] puntosOrdenadosCoordenadaX = arrayPuntosOrdenados.get(0);
         Punto[] puntosOrdenadosCoordenadaY = arrayPuntosOrdenados.get(1);
@@ -86,6 +123,7 @@ public class PuntosService implements IPuntosService {
         System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() +" (ALGORITMO) Onlogn con " + nubePuntos.getCantidad() + " puntos" + "\n " + divideConquerOnlogn(puntosOrdenadosCoordenadaX.clone(), puntosOrdenadosCoordenadaY.clone(), nubePuntos.getCantidad())+ "\n ************");
         tiempoTardado = System.currentTimeMillis() - tiempoTardado;
         System.out.println(tiempoTardado);
+        */
     }
 
     @Override
@@ -227,5 +265,13 @@ public class PuntosService implements IPuntosService {
             return d1;
         }
         return d2;
+    }
+
+    public int getAlgoritmoElegido() {
+        return algoritmoElegido;
+    }
+
+    public void setAlgoritmoElegido(int algoritmoElegido) {
+        this.algoritmoElegido = algoritmoElegido;
     }
 }

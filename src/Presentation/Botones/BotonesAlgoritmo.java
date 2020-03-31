@@ -13,6 +13,12 @@ public class BotonesAlgoritmo extends Botones{
     public String[] nombresBotones = {"O(n^2)", "O((n·logn)^2)", "O(n·logn)"};
     private JLabel algoritmoLabel;
 
+    public int getAlgoritmoElegido() {
+        return algoritmoElegido;
+    }
+
+    private int algoritmoElegido;
+
     private DCController controller;
 
     public BotonesAlgoritmo(DCController controller){
@@ -36,16 +42,21 @@ public class BotonesAlgoritmo extends Botones{
                 new Thread(() -> {
                     for (int j = 0; j < botones.length; j++) {
                         if (botones[j] == source) {
-                            activarButton(j, botones[j]);
+                            activarButton(botones[j]);
+                            algoritmoElegido = j;
                         } else {
                             desactivarBoton(botones[j]);
                         }
                     }
                 }).start();
             });
+            if (i == 0){
+                botones[i].addActionListener(e -> controller.deshabilitarBotonesSorter());
+            } else {
+                botones[i].addActionListener(e -> controller.habilitarBotonesSorter());
+            }
             buttonsPanel.add(botones[i]);
         }
-
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
     }

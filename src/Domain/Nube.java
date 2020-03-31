@@ -15,7 +15,7 @@ public class Nube implements INube {
     private Punto[] puntos;
     private int cantidad;
     private int media;
-    private int desviacion = 1;
+    private int desviacion;
     private final Random generator = new Random();
     private Thread worker;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -81,7 +81,7 @@ public class Nube implements INube {
     }
 
     @Override
-    public Future<Nube> crearNubePuntos (int cantidad, int media, int desviacion) {
+    public Future<Nube> crearNubePuntos (int cantidad, double media, double desviacion) {
         return executor.submit(() -> {
             for (int i = 0; i < cantidad; i++){
                 setPunto(new Punto(i + 1, generateRandomCoordinate(media, desviacion), generateRandomCoordinate(media, desviacion)), i);
@@ -113,7 +113,7 @@ public class Nube implements INube {
         return result;
     }
 
-    private double generateRandomCoordinate(int media, int desviacion){
+    private double generateRandomCoordinate(double media, double desviacion){
         return generator.nextGaussian() * media + desviacion;
     }
 

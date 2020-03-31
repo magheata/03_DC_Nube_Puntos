@@ -16,7 +16,8 @@ public class Window extends JFrame{
     private void initComponents() {
         DCController controller = new DCController();
         panelControl = new PanelControl(controller);
-        panelPuntos = new PanelPuntos();
+        controller.setPanelControl(panelControl);
+        panelPuntos = new PanelPuntos(controller);
         panelPuntos.setPreferredSize(new Dimension(600, 450));
         panelControl.setPreferredSize(new Dimension(460, 450));
 

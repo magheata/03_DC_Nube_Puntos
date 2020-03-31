@@ -22,10 +22,9 @@ public abstract class Botones extends JPanel{
 
     /**
      *
-     * @param botonSeleccionado
      * @param button
      */
-    protected void activarButton(int botonSeleccionado, JButton button){
+    protected void activarButton(JButton button){
         button.setBorderPainted(true);
         button.setContentAreaFilled(true);
         button.setOpaque(true);

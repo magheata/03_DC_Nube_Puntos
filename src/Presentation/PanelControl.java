@@ -115,4 +115,28 @@ public class PanelControl extends JPanel {
         graphPanelWrapper.add(graphPanel, constraintsGraphWrapperPanel);
         return graphPanelWrapper;
     }
+
+    public void disableGaussianElements(){
+        botonesGraphPanel.deshabilitarElementosGaussianos();
+    }
+
+    public void enableGaussianElements(){
+        botonesGraphPanel.habilitarElementosGaussianos();
+    }
+
+    public void disableBotonesSorter(){
+        botonesSorterPanel.disableBotonesSorter();
+    }
+
+    public void enableBotonesSorter(){
+        botonesSorterPanel.enableBotonesSorter();
+    }
+
+    public int getAlgoritmoElegido(){
+        return botonesAlgoritmoPanel.getAlgoritmoElegido();
+    }
+
+    public int getSorterElegido(){
+        return botonesSorterPanel.getSorterElegido();
+    }
 }

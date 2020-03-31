@@ -56,6 +56,8 @@ public class BotonesGraph extends Botones{
         this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
         this.add(buttonsWrapperPanel, BorderLayout.SOUTH);
         this.setVisible(true);
+
+        deshabilitarElementosGaussianos();
     }
 
     private void inicializarElementosGaussianos(){
@@ -99,6 +101,7 @@ public class BotonesGraph extends Botones{
             if (!(puntosTotales <= 100)) {
                 puntosTotales = puntosTotales / 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
+                controller.setTotalPuntos(puntosTotales);
             }
         });
 
@@ -109,6 +112,7 @@ public class BotonesGraph extends Botones{
             if (!(puntosTotales >= 10000000 )) {
                 puntosTotales = puntosTotales * 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
+                controller.setTotalPuntos(puntosTotales);
             }
         });
     }
@@ -122,6 +126,7 @@ public class BotonesGraph extends Botones{
                 media = media + 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
+                controller.setMediaPuntos(media);
             }
         });
 
@@ -133,6 +138,7 @@ public class BotonesGraph extends Botones{
                 media = media - 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
+                controller.setMediaPuntos(media);
             }
         });
 
@@ -144,7 +150,7 @@ public class BotonesGraph extends Botones{
                 varianza = varianza + 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);
-
+                controller.setVarianzaPuntos(varianza);
             }
         });
 
@@ -156,8 +162,22 @@ public class BotonesGraph extends Botones{
                 varianza = varianza - 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);
+                controller.setVarianzaPuntos(varianza);
             }
         });
+    }
 
+    public void deshabilitarElementosGaussianos(){
+        decreaseMeanButton.setEnabled(false);
+        increaseMeanButton.setEnabled(false);
+        decreaseVarianceButton.setEnabled(false);
+        increaseVarianceButton.setEnabled(false);
+    }
+
+    public void habilitarElementosGaussianos(){
+        decreaseMeanButton.setEnabled(true);
+        increaseMeanButton.setEnabled(true);
+        decreaseVarianceButton.setEnabled(true);
+        increaseVarianceButton.setEnabled(true);
     }
 }
