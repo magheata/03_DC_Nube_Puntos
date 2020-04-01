@@ -4,8 +4,6 @@ package Presentation;
 import Application.DCController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutionException;
 
 public class PanelPuntos extends JPanel {
@@ -15,6 +13,7 @@ public class PanelPuntos extends JPanel {
     private ButtonGroup tipoDistribucionButtons;
     private JButton startButton;
     private boolean isDistribucionGaussiana;
+    private boolean nubePuntosCreada;
 
     private DCController controller;
 
@@ -22,24 +21,16 @@ public class PanelPuntos extends JPanel {
         initComponents();
         this.controller = controller;
         isDistribucionGaussiana = false;
+        nubePuntosCreada = false;
     }
 
     private void initComponents(){
         startButton = new JButton();
         startButton.setText("Empezar ejecución");
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.setearParametrosElegidos();
-                try {
-                    controller.crearNubePunto();
-                } catch (ExecutionException ex) {
-                    ex.printStackTrace();
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                controller.start();
-            }
+        startButton.addActionListener(e -> {
+            controller.setearParametrosElegidos();
+            controller.inicializarPuntos();
+            controller.start();
         });
         generarRandomButton = new JRadioButton();
         generarRandomButton.setText("Distribución Aleatoria");

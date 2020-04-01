@@ -24,6 +24,7 @@ public class DCController implements IController {
     private double varianzaPuntos;
     private boolean isGaussianDistribution;
     private boolean puntosCambiados = true;
+    private boolean nubePuntosCreada = false;
 
     private static  String[] pathsSort = {"Infrastructure.SortingAlgorithms.Javasort", "Infrastructure.SortingAlgorithms.Quicksort",
             "Infrastructure.SortingAlgorithms.Mergesort", "Infrastructure.SortingAlgorithms.Bucketsort"};
@@ -39,30 +40,34 @@ public class DCController implements IController {
     @Override
     public void updateGraph(double mean, double stdDeviation) {
         graphPanel.updateGraphWithNewValues(mean, stdDeviation);
+        puntosCambiados = true;
+        nubePuntosCreada = false;
     }
 
     @Override
     public void disableGaussianElements() {
         puntosCambiados = true;
+        nubePuntosCreada = false;
+        isGaussianDistribution = false;
         panelControl.disableGaussianElements();
     }
 
     @Override
     public void enableGaussianElements() {
         puntosCambiados = true;
+        nubePuntosCreada = false;
+        isGaussianDistribution = true;
         panelControl.enableGaussianElements();
     }
 
     @Override
     public void habilitarBotonesSorter() {
         panelControl.enableBotonesSorter();
-        isGaussianDistribution = true;
     }
 
     @Override
     public void deshabilitarBotonesSorter() {
         panelControl.disableBotonesSorter();
-        isGaussianDistribution = false;
     }
 
     @Override
@@ -76,11 +81,17 @@ public class DCController implements IController {
         }
         while (!future.isDone()){}
         puntosService.setNubePuntos(future.get());
+        puntosCambiados = false;
     }
 
     @Override
     public void start() {
-        if (puntosCambiados){
+        puntosService.start();
+    }
+
+    @Override
+    public void inicializarPuntos() {
+        if (!nubePuntosCreada || puntosCambiados){
             try {
                 crearNubePunto();
             } catch (ExecutionException e) {
@@ -88,9 +99,8 @@ public class DCController implements IController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            nubePuntosCreada = true;
         }
-        puntosService.start();
-        puntosCambiados = false;
     }
 
     public void setGraphPanel(GraphPanel graphPanel) {
@@ -148,6 +158,7 @@ public class DCController implements IController {
 
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
+        nubePuntosCreada = false;
     }
 
     public boolean isGaussianDistribution() {

@@ -10,4 +10,5 @@ public interface IController {
     void deshabilitarBotonesSorter();
     void crearNubePunto() throws ExecutionException, InterruptedException;
     void start();
+    void inicializarPuntos();
 }

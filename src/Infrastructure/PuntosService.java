@@ -47,6 +47,7 @@ public class PuntosService implements IPuntosService {
 
     public void setNubePuntos(Nube nubePuntos) {
         this.nubePuntos = nubePuntos;
+        isPuntosOrdenados = false;
     }
 
     public void start() {

@@ -114,7 +114,7 @@ public class Nube implements INube {
     }
 
     private double generateRandomCoordinate(double media, double desviacion){
-        return generator.nextGaussian() * media + desviacion;
+        return generator.nextGaussian() * desviacion + media;
     }
 
     public static double findAverageUsingStream(double[] array) {
