@@ -19,7 +19,7 @@ public class Window extends JFrame{
         controller.setPanelControl(panelControl);
         panelPuntos = new PanelPuntos(controller);
         panelPuntos.setPreferredSize(new Dimension(600, 450));
-        panelControl.setPreferredSize(new Dimension(460, 450));
+        //panelControl.setPreferredSize(new Dimension(460, 450));
 
         this.add(panelControl, BorderLayout.EAST);
         this.add(new JSeparator(SwingConstants.VERTICAL));

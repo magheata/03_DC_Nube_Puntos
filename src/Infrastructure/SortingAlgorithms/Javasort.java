@@ -20,8 +20,9 @@ public class Javasort extends Sort{
 
     @Override
     public void sort(Punto[] puntos){
+        this.puntos = puntos;
         duracionTotal = System.nanoTime(); /* Guardamos el momento en el que empieza el proceso*/
-        sortPrivate(puntos);
+        sortPrivate();
         duracionTotal = System.nanoTime() - duracionTotal; /* Guardamos el momento en el que empieza el proceso*/
     }
 
@@ -33,7 +34,7 @@ public class Javasort extends Sort{
         this.compararX = compararX;
     }
 
-    private void sortPrivate(Punto[] puntos) {
+    private void sortPrivate() {
         List<Punto> prueba = Arrays.asList(puntos);
         prueba.sort((p1, p2) -> {
             if (mirarCoordenadaX) {

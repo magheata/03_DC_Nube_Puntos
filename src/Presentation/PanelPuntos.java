@@ -4,7 +4,6 @@ package Presentation;
 import Application.DCController;
 
 import javax.swing.*;
-import java.util.concurrent.ExecutionException;
 
 public class PanelPuntos extends JPanel {
 
@@ -28,8 +27,8 @@ public class PanelPuntos extends JPanel {
         startButton = new JButton();
         startButton.setText("Empezar ejecución");
         startButton.addActionListener(e -> {
-            controller.setearParametrosElegidos();
             controller.inicializarPuntos();
+            controller.setearParametrosElegidos();
             controller.start();
         });
         generarRandomButton = new JRadioButton();
