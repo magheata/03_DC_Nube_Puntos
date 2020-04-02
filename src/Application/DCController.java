@@ -3,9 +3,11 @@ package Application;
 
 import Domain.Interfaces.IController;
 import Domain.Nube;
+import Domain.Punto;
 import Infrastructure.PuntosService;
 import Presentation.Graph.GraphPanel;
 import Presentation.PanelControl;
+import Presentation.PanelPuntos;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -16,6 +18,7 @@ public class DCController implements IController {
     private PanelControl panelControl;
     private PuntosService puntosService;
     private Nube nube;
+    private PanelPuntos panelPuntos;
 
     private int algoritmoElegido;
     private int sorterElegido;
@@ -168,4 +171,8 @@ public class DCController implements IController {
     public void setGaussianDistribution(boolean gaussianDistribution) {
         isGaussianDistribution = gaussianDistribution;
     }
+
+    public Punto[] getPuntos(){return nube.getPuntos();}
+
+    public void mostrarPuntos(){panelPuntos.initFxComponents();}
 }

@@ -10,7 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class Nube implements INube {
+public class
+Nube implements INube {
 
     private Punto[] puntos;
     private int cantidad;
