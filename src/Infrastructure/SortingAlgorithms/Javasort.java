@@ -7,15 +7,8 @@ import java.util.*;
 
 public class Javasort extends Sort{
 
-    private boolean compararX;
-
-    public Javasort(){
+    public Javasort() {
         nombreAlgoritmo = "Javasort";
-    }
-
-    public Javasort(boolean compararX) {
-        nombreAlgoritmo = "Javasort";
-        this.compararX = compararX;
     }
 
     @Override
@@ -24,14 +17,6 @@ public class Javasort extends Sort{
         duracionTotal = System.nanoTime(); /* Guardamos el momento en el que empieza el proceso*/
         sortPrivate();
         duracionTotal = System.nanoTime() - duracionTotal; /* Guardamos el momento en el que empieza el proceso*/
-    }
-
-    public boolean isCompararX() {
-        return compararX;
-    }
-
-    public void setCompararX(boolean compararX) {
-        this.compararX = compararX;
     }
 
     private void sortPrivate() {

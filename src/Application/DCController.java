@@ -4,6 +4,7 @@ package Application;
 import Domain.Interfaces.IController;
 import Domain.Nube;
 import Infrastructure.PuntosService;
+import Infrastructure.SortingTypes;
 import Presentation.Graph.GraphPanel;
 import Presentation.PanelControl;
 
@@ -111,16 +112,8 @@ public class DCController implements IController {
         this.panelControl = panelControl;
     }
 
-    public int getAlgoritmoElegido() {
-        return algoritmoElegido;
-    }
-
     public void setAlgoritmoElegido(int algoritmoElegido) {
         this.algoritmoElegido = algoritmoElegido;
-    }
-
-    public int getSorterElegido() {
-        return sorterElegido;
     }
 
     public void setSorterElegido(int sorterElegido) {
@@ -131,41 +124,21 @@ public class DCController implements IController {
         setAlgoritmoElegido(panelControl.getAlgoritmoElegido());
         setSorterElegido(panelControl.getSorterElegido());
         puntosService.setAlgoritmoElegido(algoritmoElegido);
-        if (algoritmoElegido != 0){
-            puntosService.setClaseSort(pathsSort[sorterElegido], true);
+        if (algoritmoElegido != SortingTypes.Javasort.ordinal()){
+            puntosService.setClaseSort(pathsSort[sorterElegido]);
         }
-    }
-
-    public double getMediaPuntos() {
-        return mediaPuntos;
     }
 
     public void setMediaPuntos(double mediaPuntos) {
         this.mediaPuntos = mediaPuntos;
     }
 
-    public double getVarianzaPuntos() {
-        return varianzaPuntos;
-    }
-
     public void setVarianzaPuntos(double varianzaPuntos) {
         this.varianzaPuntos = varianzaPuntos;
-    }
-
-    public int getTotalPuntos() {
-        return totalPuntos;
     }
 
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
         nubePuntosCreada = false;
-    }
-
-    public boolean isGaussianDistribution() {
-        return isGaussianDistribution;
-    }
-
-    public void setGaussianDistribution(boolean gaussianDistribution) {
-        isGaussianDistribution = gaussianDistribution;
     }
 }
