@@ -135,7 +135,7 @@ public class DCController implements IController {
         setSorterElegido(panelControl.getSorterElegido());
         puntosService.setAlgoritmoElegido(algoritmoElegido);
         if (algoritmoElegido != 0){
-            puntosService.setClaseSort(pathsSort[sorterElegido], 0, totalPuntos - 1, true);
+            puntosService.setClaseSort(pathsSort[sorterElegido], true);
         }
     }
 

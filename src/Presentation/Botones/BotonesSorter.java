@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class BotonesSorter extends Botones{
 
-    private JButton quicksortButton, mergesortButton, javasortButton;
-    private JButton[] botones = {quicksortButton, mergesortButton, javasortButton};
-    private String[] nombresBotones = {"Quicksort", "Mergesort", "Collections.sort()"};
+    private JButton quicksortButton, mergesortButton, javasortButton, bucketSort;
+    private JButton[] botones = {javasortButton, quicksortButton, mergesortButton, bucketSort};
+    private String[] nombresBotones = {"Collections.sort()", "Quicksort", "Mergesort", "Bucketsort"};
     private JLabel sorterLabel;
 
     private DCController controller;

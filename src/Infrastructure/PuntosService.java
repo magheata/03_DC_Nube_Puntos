@@ -20,7 +20,7 @@ public class PuntosService implements IPuntosService {
     private Punto[] puntosOrdenadosCoordenadaX;
     private Punto[] puntosOrdenadosCoordenadaY;
 
-    public void setClaseSort(String p, int low, int high, boolean mirarCoordenadaX) {
+    public void setClaseSort(String p, boolean mirarCoordenadaX) {
         try {
             Class c = Class.forName(p);
             sorter = (Sort) c.getDeclaredConstructor().newInstance();
@@ -29,12 +29,12 @@ public class PuntosService implements IPuntosService {
                     sorter = (Sort) c.getConstructor(boolean.class).newInstance(mirarCoordenadaX);
                     break;
                 case Quicksort:
-                    sorter = (Sort) c.getConstructor(int.class, int.class).newInstance(low, high);
                     break;
                 case Mergesort:
                     //sorter = (Sort) c.getConstructor().newInstance();
                     break;
                 case Bucketsort:
+                    break;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -58,6 +58,7 @@ public class PuntosService implements IPuntosService {
     @Override
     public void run() {
         long tiempoTardado;
+        sorter.setPuntosOriginales(nubePuntos.getPuntos().clone());
         switch (algoritmoElegido){
             case 0:
                 tiempoTardado = System.currentTimeMillis();
@@ -136,6 +137,7 @@ public class PuntosService implements IPuntosService {
             Punto puntoActual = puntos[i];
             for (int j = i + 1; j < n; j++){
                 computedDistance = puntoActual.calcularDistanciaEuclidea(puntos[j]);
+                //incrementar barra progreso
                 if (computedDistance < min_distance){
                     min_distance = computedDistance;
                     distanciaMinima = new DistanciaMinima(puntoActual, puntos[j], computedDistance);
@@ -163,17 +165,18 @@ public class PuntosService implements IPuntosService {
 
         DistanciaMinima distanciaMinima = min(distanciaMinimaL, distanciaMinimaR);
 
-        Punto strip[] = new Punto[n];
+        ArrayList<Punto> stripList = new ArrayList<>();
 
-        int j = 0;
+        int puntosStrip = 0;
 
         for (int i = 0; i < n; i++){
             if (Math.abs(puntos[i].getX() - puntoMedio.getX()) < distanciaMinima.getDistanciaPuntos()){
-                strip[j++] = puntos[i];
+                stripList.add(puntos[i]);
+                puntosStrip++;
             }
         }
 
-        return min(distanciaMinima, stripClosest(strip, j, distanciaMinima.getDistanciaPuntos()));
+        return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), false));
     }
 
     @Override
@@ -219,13 +222,19 @@ public class PuntosService implements IPuntosService {
             }
         }
 
-        return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos()));
+        return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), true));
     }
 
-    private DistanciaMinima stripClosest(Punto[] strip, int cantidad, double distanciaPuntos){
+    private DistanciaMinima stripClosest(Punto[] strip, int cantidad, double distanciaPuntos, boolean isNLogN){
         Punto punto1 = null;
         Punto punto2 = null;
         double min = distanciaPuntos;
+        if (!isNLogN){
+            sorter.setMirarCoordenadaX(false);
+            Punto[] puntosOrdenadosCoordenadaY = strip.clone();
+            sorter.sort(puntosOrdenadosCoordenadaY);
+            strip = puntosOrdenadosCoordenadaY.clone();
+        }
         for (int i = 0; i < cantidad; ++i){
             for (int j = i + 1; j < cantidad && (strip[j].getY() - strip[i].getY()) < min; ++j){
                 if (strip[i].calcularDistanciaEuclidea(strip[j]) < min){

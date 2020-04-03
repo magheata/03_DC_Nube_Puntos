@@ -10,6 +10,8 @@ public abstract class Sort{
     protected long duracionTotal;
     protected boolean mirarCoordenadaX = true;
 
+    protected Punto[] puntosOriginales;
+
     public long getDuracionTotal() {
         return duracionTotal;
     }
@@ -32,6 +34,14 @@ public abstract class Sort{
 
     public void setMirarCoordenadaX(boolean mirarCoordenadaX) {
         this.mirarCoordenadaX = mirarCoordenadaX;
+    }
+
+    public Punto[] getPuntosOriginales() {
+        return puntosOriginales;
+    }
+
+    public void setPuntosOriginales(Punto[] puntosOriginales) {
+        this.puntosOriginales = puntosOriginales;
     }
 
     public void sort(Punto[] puntos){};

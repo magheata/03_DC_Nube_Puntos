@@ -12,15 +12,11 @@ public class Quicksort extends Sort{
         nombreAlgoritmo = "Quicksort";
     }
 
-    public Quicksort(int low, int high) {
-        nombreAlgoritmo = "Quicksort";
-        this.low = low;
-        this.high = high;
-    }
-
     @Override
     public void sort(Punto[] puntos){
         duracionTotal = System.nanoTime(); /* Guardamos el momento en el que empieza el proceso*/
+        high = puntos.length - 1;
+        low = 0;
         this.puntos = puntos;
         sort(low, high);
         duracionTotal = System.nanoTime() - duracionTotal; /* Guardamos el momento en el que empieza el proceso*/
