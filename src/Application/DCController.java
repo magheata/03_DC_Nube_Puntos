@@ -3,10 +3,12 @@ package Application;
 
 import Domain.Interfaces.IController;
 import Domain.Nube;
+import Domain.Punto;
 import Infrastructure.PuntosService;
 import Infrastructure.SortingTypes;
 import Presentation.Graph.GraphPanel;
 import Presentation.PanelControl;
+import Presentation.PanelPuntos;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -17,6 +19,7 @@ public class DCController implements IController {
     private PanelControl panelControl;
     private PuntosService puntosService;
     private Nube nube;
+    private PanelPuntos panelPuntos;
 
     private int algoritmoElegido;
     private int sorterElegido;
