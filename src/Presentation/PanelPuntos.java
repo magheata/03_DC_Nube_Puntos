@@ -34,7 +34,6 @@ public class PanelPuntos extends JPanel {
 
     public PanelPuntos(DCController controller){
         initComponents();
-
         this.controller = controller;
         isDistribucionGaussiana = false;
         nubePuntosCreada = false;
@@ -49,6 +48,7 @@ public class PanelPuntos extends JPanel {
             controller.setearParametrosElegidos();
             controller.inicializarPuntos();
             controller.start();
+
         });
         generarRandomButton = new JRadioButton();
         generarRandomButton.setText("Distribución Aleatoria");
@@ -80,7 +80,7 @@ public class PanelPuntos extends JPanel {
                 ScatterChart scatterChart = new ScatterChart<>(xAxis,yAxis);
                 XYChart.Series series = new XYChart.Series<>();
                 Punto[] p = controller.getPuntos();
-                for (int i = 0; i<controller.getTotalPuntos();i++){
+                for (int i = 0; i<controller.getPuntos().length;i++){
                     x= p[i].getX();
                     y= p[i].getY();
                     series.getData().add(getData(x,y));
@@ -89,6 +89,7 @@ public class PanelPuntos extends JPanel {
                 grid.add(scatterChart,0,0);
 
                 fxPanel.setScene(scene);
+                fxPanel.repaint();
             }
 
 
