@@ -114,7 +114,20 @@ public class DCController implements IController {
 
     @Override
     public void pintarPuntos() {
-        panelPuntos.addPuntos(getPuntosNube());
+        double maxX = 0;
+        if (Math.abs(nube.getMinX()) < nube.getMaxX()){
+            maxX = nube.getMaxX();
+        } else {
+            maxX = Math.abs(nube.getMinX());
+        }
+
+        double maxY = 0;
+        if (Math.abs(nube.getMinY()) < nube.getMaxY()){
+            maxY = nube.getMaxY();
+        } else {
+            maxY = Math.abs(nube.getMinY());
+        }
+        panelPuntos.addPuntos(getPuntosNube(), maxX, maxY);
     }
 
     public void setGraphPanel(GraphPanel graphPanel) {

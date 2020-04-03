@@ -10,13 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import java.awt.*;
 
 public class PanelPuntos extends JPanel {
 
@@ -85,8 +83,8 @@ public class PanelPuntos extends JPanel {
         Group root = new Group();
         grid = new GridPane();
         scene = new Scene(grid, 500.0D, 400.0D);
-        NumberAxis yAxis = new NumberAxis(0.0D, 20.0D, 0.5D);
-        NumberAxis xAxis = new NumberAxis(0.0D, 20.0D, 0.5D);
+        NumberAxis yAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
+        NumberAxis xAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
         scatterChart = new ScatterChart(xAxis, yAxis);
         scatterChart.setOpacity(0.5);
         scatterChart.setLegendVisible(false);
@@ -96,12 +94,12 @@ public class PanelPuntos extends JPanel {
         return scene;
     }
 
-    public void addPuntos(Punto[] puntos){
+    public void addPuntos(Punto[] puntos, double maxX, double maxY){
         Platform.runLater(() -> {
             series.getData().removeAll();
             for(int i = 0; i < puntos.length; ++i) {
-                x = puntos[i].getX();
-                y = puntos[i].getY();
+                x = (puntos[i].getX() * 5) / maxX;
+                y = (puntos[i].getY()  * 5) / maxY;
                 series.getData().add(getData(x, y));
             }
         });

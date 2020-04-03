@@ -21,6 +21,27 @@ Nube implements INube {
     private Thread worker;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
+    public double getMinX() {
+        return minX;
+    }
+
+    public double getMinY() {
+        return minY;
+    }
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public double getMaxY() {
+        return maxY;
+    }
+
+    private double minX = Double.MAX_VALUE;
+    private double minY = Double.MAX_VALUE;
+    private double maxX = Double.MIN_VALUE;
+    private double maxY = Double.MIN_VALUE;
+
     public Nube(int cantidad) {
         this.cantidad = cantidad;
         this.puntos = new Punto[cantidad];
@@ -84,8 +105,24 @@ Nube implements INube {
     @Override
     public Future<Nube> crearNubePuntos (int cantidad, double media, double desviacion) {
         return executor.submit(() -> {
+            double coordenadaX = 0;
+            double coordenadaY = 0;
             for (int i = 0; i < cantidad; i++){
-                setPunto(new Punto(i + 1, generateRandomCoordinate(media, desviacion), generateRandomCoordinate(media, desviacion)), i);
+                coordenadaX = generateRandomCoordinate(media, desviacion);
+                coordenadaY = generateRandomCoordinate(media, desviacion);
+                if (coordenadaX < minX){
+                    minX = coordenadaX;
+                }
+                if (coordenadaX > maxX){
+                    maxX = coordenadaX;
+                }
+                if (coordenadaY < minY){
+                    minY = coordenadaY;
+                }
+                if (coordenadaY > maxY){
+                    maxY = coordenadaY;
+                }
+                setPunto(new Punto(i + 1, coordenadaX, coordenadaY), i);
             }
             return this;
         });
@@ -95,8 +132,24 @@ Nube implements INube {
     public Future<Nube> crearNubePuntosRandom (int lower, int upper) {
         //ThreadLocalRandom generator = ThreadLocalRandom.current();
         return executor.submit(() -> {
+            double coordenadaX = 0;
+            double coordenadaY = 0;
             for (int i = 0; i < cantidad; i++){
-                setPunto(new Punto(i + 1, lower + (upper - lower) * generator.nextDouble(), lower + (upper - lower) * generator.nextDouble()), i);
+                coordenadaX = lower + (upper - lower) * generator.nextDouble();
+                coordenadaY = lower + (upper - lower) * generator.nextDouble();
+                setPunto(new Punto(i + 1, coordenadaX, coordenadaY), i);
+                if (coordenadaX < minX){
+                    minX = coordenadaX;
+                }
+                if (coordenadaX > maxX){
+                    maxX = coordenadaX;
+                }
+                if (coordenadaY < minY){
+                    minY = coordenadaY;
+                }
+                if (coordenadaY > maxY){
+                    maxY = coordenadaY;
+                }
             }
             return this;
         });
