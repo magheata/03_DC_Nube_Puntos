@@ -30,6 +30,7 @@ public class PanelPuntos extends JPanel {
     private ScatterChart scatterChart;
     private XYChart.Series series;
     private NumberAxis xAxis;
+    private NumberAxis yAxis;
     double x;
     double y;
 
@@ -56,11 +57,17 @@ public class PanelPuntos extends JPanel {
         generarRandomButton = new JRadioButton();
         generarRandomButton.setText("Distribución Aleatoria");
         generarRandomButton.setSelected(true);
-        generarRandomButton.addActionListener(e -> controller.disableGaussianElements());
+        generarRandomButton.addActionListener(e -> {
+            controller.disableGaussianElements();
+            cambiarGrafo(false);
+        });
 
         generarRandomDistribucionNormalButton = new JRadioButton();
         generarRandomDistribucionNormalButton.setText("Distribución Gaussiana");
-        generarRandomDistribucionNormalButton.addActionListener(e -> controller.enableGaussianElements());
+        generarRandomDistribucionNormalButton.addActionListener(e -> {
+            controller.enableGaussianElements();
+            cambiarGrafo(true);
+        });
 
         tipoDistribucionButtons = new ButtonGroup();
         this.add(generarRandomButton);
@@ -73,6 +80,25 @@ public class PanelPuntos extends JPanel {
         this.setVisible(true);
     }
 
+    private void cambiarGrafo(boolean grafoGaussiano) {
+        Platform.runLater(() -> {
+            grid = new GridPane();
+            if (grafoGaussiano) {
+                yAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
+                xAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
+            } else {
+                yAxis = new NumberAxis(0, 5D, 0.25D);
+                xAxis = new NumberAxis(0, 5D, 0.25D);
+            }
+             scatterChart = new ScatterChart(xAxis, yAxis);
+            scatterChart.setOpacity(0.5);
+            scatterChart.setLegendVisible(false);
+            grid.add(scatterChart, 0, 0);
+            scene = new Scene(grid, 500.0D, 400.0D);
+            this.fxPanel.setScene(scene);
+        });
+    }
+
     private void initFxComponents(JFXPanel fxPanel) {
         grid = new GridPane();
         scene = createScene();
@@ -83,8 +109,8 @@ public class PanelPuntos extends JPanel {
         Group root = new Group();
         grid = new GridPane();
         scene = new Scene(grid, 500.0D, 400.0D);
-        NumberAxis yAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
-        NumberAxis xAxis = new NumberAxis(-5.5D, 5.5D, 0.25D);
+        yAxis = new NumberAxis(0, 5D, 0.25D);
+        xAxis = new NumberAxis(0, 5D, 0.25D);
         scatterChart = new ScatterChart(xAxis, yAxis);
         scatterChart.setOpacity(0.5);
         scatterChart.setLegendVisible(false);
