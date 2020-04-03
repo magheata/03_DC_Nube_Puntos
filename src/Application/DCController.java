@@ -114,6 +114,9 @@ public class DCController implements IController {
 
     @Override
     public void pintarPuntos() {
+        if(panelPuntos.getTam()!=0) {
+            panelPuntos.quitarPuntos();
+        }
         double maxX = 0;
         if (Math.abs(nube.getMinX()) < nube.getMaxX()){
             maxX = nube.getMaxX();

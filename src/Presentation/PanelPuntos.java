@@ -15,6 +15,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import java.util.Collections;
 
 public class PanelPuntos extends JPanel {
 
@@ -122,6 +123,7 @@ public class PanelPuntos extends JPanel {
 
     public void addPuntos(Punto[] puntos, double maxX, double maxY){
         Platform.runLater(() -> {
+
             series.getData().removeAll();
             for(int i = 0; i < puntos.length; ++i) {
                 x = (puntos[i].getX() * 5) / maxX;
@@ -130,6 +132,10 @@ public class PanelPuntos extends JPanel {
             }
         });
     }
+ public void quitarPuntos() {
+     series.getData().removeAll(Collections.singleton(series.getData().setAll()));
+
+ }
 
     private XYChart.Data getData(double x, double y) {
         XYChart.Data data = new XYChart.Data();
@@ -137,4 +143,6 @@ public class PanelPuntos extends JPanel {
         data.setYValue(y);
         return data;
     }
+
+    public int getTam(){ return series.getData().size(); }
 }
