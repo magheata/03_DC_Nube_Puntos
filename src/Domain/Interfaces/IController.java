@@ -11,4 +11,5 @@ public interface IController {
     void crearNubePunto() throws ExecutionException, InterruptedException;
     void start();
     void inicializarPuntos();
+    void pintarPuntos();
 }

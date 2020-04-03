@@ -19,6 +19,11 @@ public class DCController implements IController {
     private PanelControl panelControl;
     private PuntosService puntosService;
     private Nube nube;
+
+    public void setPanelPuntos(PanelPuntos panelPuntos) {
+        this.panelPuntos = panelPuntos;
+    }
+
     private PanelPuntos panelPuntos;
 
     private int algoritmoElegido;
@@ -107,6 +112,11 @@ public class DCController implements IController {
         }
     }
 
+    @Override
+    public void pintarPuntos() {
+        panelPuntos.addPuntos(getPuntosNube());
+    }
+
     public void setGraphPanel(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
     }
@@ -143,5 +153,9 @@ public class DCController implements IController {
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
         nubePuntosCreada = false;
+    }
+
+    public Punto[] getPuntosNube(){
+        return nube.getPuntos();
     }
 }

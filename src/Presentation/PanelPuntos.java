@@ -3,18 +3,20 @@ package Presentation;
 
 import Application.DCController;
 import Domain.Punto;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.chart.XYChart.Series;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import java.awt.*;
 
 public class PanelPuntos extends JPanel {
 
@@ -25,6 +27,10 @@ public class PanelPuntos extends JPanel {
     private boolean isDistribucionGaussiana;
     private boolean nubePuntosCreada;
     private JFXPanel fxPanel;
+    private GridPane grid;
+    private Scene scene;
+    private ScatterChart scatterChart;
+    private XYChart.Series series;
     private NumberAxis xAxis;
     double x;
     double y;
@@ -39,11 +45,14 @@ public class PanelPuntos extends JPanel {
     }
 
     private void initComponents(){
+        fxPanel = new JFXPanel();
+        fxPanel.setVisible(true);
         startButton = new JButton();
         startButton.setText("Empezar ejecución");
         startButton.addActionListener(e -> {
             controller.setearParametrosElegidos();
             controller.inicializarPuntos();
+            controller.pintarPuntos();
             controller.start();
         });
         generarRandomButton = new JRadioButton();
@@ -61,26 +70,41 @@ public class PanelPuntos extends JPanel {
         this.add(generarRandomDistribucionNormalButton);
         tipoDistribucionButtons.add(generarRandomDistribucionNormalButton);
         this.add(startButton);
+        this.add(fxPanel);
+        Platform.runLater(() -> initFxComponents(fxPanel));
         this.setVisible(true);
     }
 
-    public void initFxComponents() {
-        GridPane grid = new GridPane();
-        Scene scene = new Scene(grid, 500.0D, 400.0D);
-        NumberAxis yAxis = new NumberAxis(0.0D, 5.0D, 1.0D);
-        NumberAxis xAxis = new NumberAxis(0.0D, 5.0D, 1.0D);
-        ScatterChart scatterChart = new ScatterChart(xAxis, yAxis);
-        XYChart.Series series = new XYChart.Series();
-        Punto[] p = this.controller.getPuntos();
-
-        for(int i = 0; i < this.controller.getPuntos().length; ++i) {
-            this.x = p[i].getX();
-            this.y = p[i].getY();
-            series.getData().add(this.getData(this.x, this.y));
-        }
-
-        grid.add(scatterChart, 0, 0);
+    private void initFxComponents(JFXPanel fxPanel) {
+        grid = new GridPane();
+        scene = createScene();
         this.fxPanel.setScene(scene);
+    }
+
+    private Scene createScene(){
+        Group root = new Group();
+        grid = new GridPane();
+        scene = new Scene(grid, 500.0D, 400.0D);
+        NumberAxis yAxis = new NumberAxis(0.0D, 20.0D, 0.5D);
+        NumberAxis xAxis = new NumberAxis(0.0D, 20.0D, 0.5D);
+        scatterChart = new ScatterChart(xAxis, yAxis);
+        scatterChart.setOpacity(0.5);
+        scatterChart.setLegendVisible(false);
+        series = new XYChart.Series();
+        grid.add(scatterChart, 0, 0);
+        scatterChart.getData().add(series);
+        return scene;
+    }
+
+    public void addPuntos(Punto[] puntos){
+        Platform.runLater(() -> {
+            series.getData().removeAll();
+            for(int i = 0; i < puntos.length; ++i) {
+                x = puntos[i].getX();
+                y = puntos[i].getY();
+                series.getData().add(getData(x, y));
+            }
+        });
     }
 
     private XYChart.Data getData(double x, double y) {
