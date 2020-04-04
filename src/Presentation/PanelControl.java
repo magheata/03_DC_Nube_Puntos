@@ -18,6 +18,8 @@ public class PanelControl extends JPanel {
     public BotonesSorter botonesSorterPanel;
     public BotonesGraph botonesGraphPanel;
     protected GraphPanel graphPanel;
+    JProgressBar BarraPoints;
+    JProgressBar BarraCounts;
 
     private DCController controller;
 
@@ -53,7 +55,16 @@ public class PanelControl extends JPanel {
         constraintsAlgoritmoPanel.gridx = 0;
         constraintsAlgoritmoPanel.gridy = 1;
 
-        //endregion
+        //progressBar puntos
+        BarraPoints = new JProgressBar(0, 100);
+        BarraPoints.setValue(0);
+        BarraPoints.setStringPainted(true);
+
+        //progresssBar calculos
+        BarraPoints = new JProgressBar(0, 100);
+        BarraPoints.setValue(0);
+        BarraPoints.setStringPainted(true);
+                //endregion
 
         //region BOTONES SORTER
         botonesSorterPanel = new BotonesSorter(controller);
@@ -69,6 +80,7 @@ public class PanelControl extends JPanel {
         this.add(botonesAlgoritmoPanel, constraintsAlgoritmoPanel);
         this.add(botonesSorterPanel, constraintsBotonesSorterPanel);
         this.add(addGraphToPanel(), constraintsGraphWrapperPanel);
+        this.add(BarraPoints);
         this.setVisible(true);
 
     }
@@ -138,5 +150,14 @@ public class PanelControl extends JPanel {
 
     public int getSorterElegido(){
         return botonesSorterPanel.getSorterElegido();
+    }
+
+    public void actbarra(){
+        int v=BarraPoints.getValue();
+        v++;
+        BarraPoints.setValue(v);
+    }
+    public void maxbarra(int m){
+        BarraPoints.setMaximum(m);
     }
 }

@@ -174,4 +174,10 @@ public class DCController implements IController {
     public Punto[] getPuntosNube(){
         return nube.getPuntos();
     }
+
+    public void actbarra(){panelControl.actbarra();}
+
+    public void maxbarra(int m ){
+        panelControl.maxbarra(m);
+    }
 }

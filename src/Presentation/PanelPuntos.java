@@ -125,10 +125,12 @@ public class PanelPuntos extends JPanel {
         Platform.runLater(() -> {
 
             series.getData().removeAll();
+            controller.maxbarra(puntos.length);
             for(int i = 0; i < puntos.length; ++i) {
                 x = (puntos[i].getX() * 5) / maxX;
                 y = (puntos[i].getY()  * 5) / maxY;
                 series.getData().add(getData(x, y));
+                controller.actbarra();
             }
         });
     }
