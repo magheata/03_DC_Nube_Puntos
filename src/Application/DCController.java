@@ -8,6 +8,7 @@ import Infrastructure.PuntosService;
 import Infrastructure.SortingTypes;
 import Presentation.Graph.GraphPanel;
 import Presentation.PanelControl;
+import Presentation.PanelCoordenadas;
 import Presentation.PanelPuntos;
 
 import java.util.concurrent.ExecutionException;
@@ -18,22 +19,25 @@ public class DCController implements IController {
     private GraphPanel graphPanel;
     private PanelControl panelControl;
     private PuntosService puntosService;
+
+    private PanelCoordenadas panelCoordenadas;
     private Nube nube;
-
-    public void setPanelPuntos(PanelPuntos panelPuntos) {
-        this.panelPuntos = panelPuntos;
-    }
-
     private PanelPuntos panelPuntos;
-
     private int algoritmoElegido;
     private int sorterElegido;
     private int totalPuntos;
     private double mediaPuntos;
     private double varianzaPuntos;
+
+    public boolean isGaussianDistribution() {
+        return isGaussianDistribution;
+    }
+
     private boolean isGaussianDistribution;
     private boolean puntosCambiados = true;
     private boolean nubePuntosCreada = false;
+    private double maxX;
+    private double maxY;
 
     private static  String[] pathsSort = {"Infrastructure.SortingAlgorithms.Javasort", "Infrastructure.SortingAlgorithms.Quicksort",
             "Infrastructure.SortingAlgorithms.Mergesort", "Infrastructure.SortingAlgorithms.Bucketsort"};
@@ -114,23 +118,20 @@ public class DCController implements IController {
 
     @Override
     public void pintarPuntos() {
-        if(panelPuntos.getTam()!=0) {
-            panelPuntos.quitarPuntos();
-        }
-        double maxX = 0;
         if (Math.abs(nube.getMinX()) < nube.getMaxX()){
             maxX = nube.getMaxX();
         } else {
             maxX = Math.abs(nube.getMinX());
         }
 
-        double maxY = 0;
         if (Math.abs(nube.getMinY()) < nube.getMaxY()){
             maxY = nube.getMaxY();
         } else {
             maxY = Math.abs(nube.getMinY());
         }
-        panelPuntos.addPuntos(getPuntosNube(), maxX, maxY);
+        panelCoordenadas.setPintarPuntos(true);
+        panelPuntos.repaint();
+        //panelCoordenadas.repaint();
     }
 
     public void setGraphPanel(GraphPanel graphPanel) {
@@ -180,4 +181,24 @@ public class DCController implements IController {
     public void maxbarra(int m ){
         panelControl.maxbarra(m);
     }
+
+
+    public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) {
+        this.panelCoordenadas = panelCoordenadas;
+    }
+
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public double getMaxY() {
+        return maxY;
+    }
+
+
+    public void setPanelPuntos(PanelPuntos panelPuntos) {
+        this.panelPuntos = panelPuntos;
+    }
+
 }

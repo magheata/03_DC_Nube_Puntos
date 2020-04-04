@@ -24,7 +24,6 @@ public class Scatterplot extends JPanel {
         points.add(new Point2D.Float(3, 12));
         //points.add(new Point2D.Float(3, 10));
         // points.add(new Point2D.Float(4, 12));
-
     }
 
     @Override

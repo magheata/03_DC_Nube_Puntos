@@ -14,6 +14,9 @@ public class BotonesGraph extends Botones{
 
     private DCController controller;
 
+    private int maxMean = 5;
+    private double maxVariance = 2.75;
+
     public BotonesGraph(DCController controller){
         super();
         this.controller = controller;
@@ -122,7 +125,7 @@ public class BotonesGraph extends Botones{
         increaseMeanButton.setText("+");
         increaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media >= 20)) {
+            if (!(media >= maxMean)) {
                 media = media + 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -134,7 +137,7 @@ public class BotonesGraph extends Botones{
         decreaseMeanButton.setText("-");
         decreaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media <= -20)) {
+            if (!(media <= -maxMean)) {
                 media = media - 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -146,7 +149,7 @@ public class BotonesGraph extends Botones{
         increaseVarianceButton.setText("+");
         increaseVarianceButton.addActionListener(e -> {
             double varianza = Double.parseDouble(varianceTextArea.getText());
-            if (!(varianza >= 2.75)) {
+            if (!(varianza >= maxVariance)) {
                 varianza = varianza + 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);

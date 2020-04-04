@@ -17,6 +17,7 @@ Nube implements INube {
     private int cantidad;
     private int media;
     private int desviacion;
+    private boolean isSolucion = false;
     private final Random generator = new Random();
     private Thread worker;
     private ExecutorService executor = Executors.newSingleThreadExecutor();

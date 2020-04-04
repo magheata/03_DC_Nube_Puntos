@@ -18,7 +18,7 @@ public class Window extends JFrame{
         panelControl = new PanelControl(controller);
         controller.setPanelControl(panelControl);
         panelPuntos = new PanelPuntos(controller);
-        panelPuntos.setPreferredSize(new Dimension(600, 450));
+        panelPuntos.setPreferredSize(new Dimension(560, 610));
         //panelControl.setPreferredSize(new Dimension(460, 450));
         controller.setPanelPuntos(panelPuntos);
         this.add(panelControl, BorderLayout.EAST);
