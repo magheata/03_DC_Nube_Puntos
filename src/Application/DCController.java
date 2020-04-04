@@ -68,6 +68,7 @@ public class DCController implements IController {
 
     @Override
     public void disableGaussianElements() {
+        panelCoordenadas.setPintarPuntos(false);
         puntosCambiados = true;
         nubePuntosCreada = false;
         isGaussianDistribution = false;
@@ -76,6 +77,7 @@ public class DCController implements IController {
 
     @Override
     public void enableGaussianElements() {
+        panelCoordenadas.setPintarPuntos(false);
         puntosCambiados = true;
         nubePuntosCreada = false;
         isGaussianDistribution = true;
