@@ -54,7 +54,7 @@ public class DCController implements IController {
     public DCController(){
         mediaPuntos = 0;
         varianzaPuntos = 1;
-        totalPuntos = 100;
+        totalPuntos = 1000;
         isGaussianDistribution = false;
         puntosService = new PuntosService(this);
     }
@@ -201,7 +201,6 @@ public class DCController implements IController {
         panelControl.maxbarra(m);
     }
 
-
     public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) {
         this.panelCoordenadas = panelCoordenadas;
     }
@@ -214,7 +213,6 @@ public class DCController implements IController {
     public double getMaxY() {
         return maxY;
     }
-
 
     public void setPanelPuntos(PanelPuntos panelPuntos) {
         this.panelPuntos = panelPuntos;

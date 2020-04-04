@@ -14,8 +14,11 @@ public class BotonesGraph extends Botones{
 
     private DCController controller;
 
-    private int maxMean = 5;
-    private double maxVariance = 2.75;
+    private int MEAN_MAX = 5;
+    private double VARIANCE_MAX = 2.75;
+    private double VARIANCE_MIN = 0;
+    private int PUNTOS_MAX = 100000;
+    private int PUNTOS_MIN = 10;
 
     public BotonesGraph(DCController controller){
         super();
@@ -101,7 +104,7 @@ public class BotonesGraph extends Botones{
         decrementarPuntosButton.setText("-");
         decrementarPuntosButton.addActionListener(e -> {
             int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales <= 100)) {
+            if (!(puntosTotales <= PUNTOS_MIN)) {
                 puntosTotales = puntosTotales / 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
                 controller.setTotalPuntos(puntosTotales);
@@ -112,7 +115,7 @@ public class BotonesGraph extends Botones{
         incrementarPuntosButton.setText("+");
         incrementarPuntosButton.addActionListener(e -> {
             int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales >= 10000000 )) {
+            if (!(puntosTotales >= PUNTOS_MAX)) {
                 puntosTotales = puntosTotales * 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
                 controller.setTotalPuntos(puntosTotales);
@@ -125,7 +128,7 @@ public class BotonesGraph extends Botones{
         increaseMeanButton.setText("+");
         increaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media >= maxMean)) {
+            if (!(media >= MEAN_MAX)) {
                 media = media + 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -137,7 +140,7 @@ public class BotonesGraph extends Botones{
         decreaseMeanButton.setText("-");
         decreaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media <= -maxMean)) {
+            if (!(media <= -MEAN_MAX)) {
                 media = media - 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -149,7 +152,7 @@ public class BotonesGraph extends Botones{
         increaseVarianceButton.setText("+");
         increaseVarianceButton.addActionListener(e -> {
             double varianza = Double.parseDouble(varianceTextArea.getText());
-            if (!(varianza >= maxVariance)) {
+            if (!(varianza >= VARIANCE_MAX)) {
                 varianza = varianza + 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);
@@ -161,7 +164,7 @@ public class BotonesGraph extends Botones{
         decreaseVarianceButton.setText("-");
         decreaseVarianceButton.addActionListener(e -> {
             double varianza = Double.parseDouble(varianceTextArea.getText());
-            if (!(varianza <= 0)) {
+            if (!(varianza <= VARIANCE_MIN)) {
                 varianza = varianza - 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);

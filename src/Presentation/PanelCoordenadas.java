@@ -14,7 +14,7 @@ public class PanelCoordenadas extends JPanel {
     private int BORDER_GAP = 30;
     private final int SIZE_GRAPH = 500;
     private Color colorPuntos = new Color(0.5f,0f,1f,.25f );
-    private Color colorPuntosSolucion = new Color(1f,1f,0f);
+    private Color colorPuntosSolucion = new Color(0f,1f,0f);
 
     public void setPintarPuntos(boolean pintarPuntos) {
         this.pintarPuntos = pintarPuntos;
