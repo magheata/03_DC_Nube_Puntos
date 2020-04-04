@@ -13,6 +13,8 @@ public class PanelCoordenadas extends JPanel {
     private boolean isGaussianDistribution = false;
     private int BORDER_GAP = 30;
     private final int SIZE_GRAPH = 500;
+    private Color colorPuntos = new Color(0.5f,0f,1f,.25f );
+    private Color colorPuntosSolucion = new Color(1f,1f,0f);
 
     public void setPintarPuntos(boolean pintarPuntos) {
         this.pintarPuntos = pintarPuntos;
@@ -94,12 +96,16 @@ public class PanelCoordenadas extends JPanel {
         double y;
         Color c = new Color(0.5f,0f,1f,.25f );
         Graphics2D g2d = (Graphics2D) g.create();
-        g.setColor(Color.BLUE);
         if (!controlador.isGaussianDistribution()){
             for (int i = 0; i < puntos.length; i++) {
                 x = (puntos[i].getX() * 5) / maxX;
                 y = (puntos[i].getY()  * 5) / maxY;
-                Ellipse2D dot = new Ellipse2D.Double(BORDER_GAP + (x * 100), BORDER_GAP + (y * 100), 5, 5);
+                Ellipse2D dot = new Ellipse2D.Double(BORDER_GAP + (x * 100), BORDER_GAP + (y * 100), 10, 10);
+                if (puntos[i].isSolucion()){
+                    g2d.setColor(colorPuntosSolucion);
+                } else {
+                    g2d.setColor(colorPuntos);
+                }
                 g2d.fill(dot);
             }
         } else {
@@ -107,10 +113,11 @@ public class PanelCoordenadas extends JPanel {
                 x = (puntos[i].getX() * 1) ;/// maxX;
                 y = (puntos[i].getY() * 1) ;/// maxY;
                 Ellipse2D dot = new Ellipse2D.Double(BORDER_GAP + (SIZE_GRAPH /2) + (x * 50), BORDER_GAP + (SIZE_GRAPH /2) + (y * 50), 10, 10);
-                g2d.setColor(c);
-                double thickness = 2;
-                Stroke oldStroke = g2d.getStroke();
-                g2d.setStroke(new BasicStroke(1));
+                if (puntos[i].isSolucion()){
+                    g2d.setColor(colorPuntosSolucion);
+                } else {
+                    g2d.setColor(colorPuntos);
+                }
                 g2d.fill(dot);
             }
         }

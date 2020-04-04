@@ -8,10 +8,18 @@ public class Punto {
     private double y;
     private int id;
 
+    public void setSolucion(boolean solucion) {
+        isSolucion = solucion;
+    }
+
+    private boolean isSolucion;
+
+
     public Punto(int id, double x, double y) {
         this.id = id;
         this.x = x;
         this.y = y;
+        isSolucion = false;
     }
 
     public Punto(){}
@@ -32,12 +40,13 @@ public class Punto {
         return Math.sqrt((Math.pow((this.x - punto.x), 2) + Math.pow((this.y - punto.y), 2)));
     }
 
+    public boolean isSolucion() {
+        return isSolucion;
+    }
+
+
     @Override
     public String toString() {
-        return "Punto{" +
-                "x=" + x +
-                ", y=" + y +
-                ", id=" + id +
-                '}';
+        return "id: " + id + " Coordenadas: (" + x + ", " + y + ")";
     }
 }

@@ -1,6 +1,7 @@
 /* Created by andreea on 22/03/2020 */
 package Infrastructure;
 
+import Application.DCController;
 import Domain.DTO.DistanciaMinima;
 import Domain.Interfaces.IPuntosService;
 import Domain.Nube;
@@ -19,6 +20,11 @@ public class PuntosService implements IPuntosService {
     private ArrayList<Punto[]> arrayPuntosOrdenados;
     private Punto[] puntosOrdenadosCoordenadaX;
     private Punto[] puntosOrdenadosCoordenadaY;
+    private DCController controller;
+
+    public PuntosService(DCController controller){
+        this.controller = controller;
+    }
 
     public void setClaseSort(String p) {
         try {
@@ -46,12 +52,12 @@ public class PuntosService implements IPuntosService {
     @Override
     public void run() {
         long tiempoTardado;
+        DistanciaMinima distanciaMinima = null;
         switch (algoritmoElegido){
             case 0:
                 tiempoTardado = System.currentTimeMillis();
-                System.out.println(">  (SORT): No se usa sorter (ALGORITMO) NAIVE con " + nubePuntos.getCantidad() + " puntos" + "\n" + naive(nubePuntos.getPuntos().clone(), nubePuntos.getCantidad()) + "\n ************");
-                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
-                System.out.println(tiempoTardado);
+                distanciaMinima = naive(nubePuntos.getPuntos().clone(), nubePuntos.getCantidad());
+                distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
             case 1:
                 sorter.setPuntosOriginales(nubePuntos.getPuntos().clone());
@@ -62,9 +68,8 @@ public class PuntosService implements IPuntosService {
                     isPuntosOrdenados = true;
                 }
                 tiempoTardado = System.currentTimeMillis();
-                System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() + " (ALGORITMO) Onlogn2 con " + nubePuntos.getCantidad() + " puntos" + "\n" + divideConquerOnlogn2(puntosOrdenadosCoordenadaX.clone(), nubePuntos.getCantidad())+ "\n ************");
-                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
-                System.out.println(tiempoTardado);
+                distanciaMinima = divideConquerOnlogn2(puntosOrdenadosCoordenadaX.clone(), nubePuntos.getCantidad());
+                distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
             case 2:
                 sorter.setPuntosOriginales(nubePuntos.getPuntos().clone());
@@ -75,11 +80,11 @@ public class PuntosService implements IPuntosService {
                     isPuntosOrdenados = true;
                 }
                 tiempoTardado = System.currentTimeMillis();
-                System.out.println(">  (SORT): " + sorter.getNombreAlgoritmo() +" (ALGORITMO) Onlogn con " + nubePuntos.getCantidad() + " puntos" + "\n " + divideConquerOnlogn(puntosOrdenadosCoordenadaX.clone(), puntosOrdenadosCoordenadaY.clone(), nubePuntos.getCantidad())+ "\n ************");
-                tiempoTardado = System.currentTimeMillis() - tiempoTardado;
-                System.out.println(tiempoTardado);
+                distanciaMinima = divideConquerOnlogn(puntosOrdenadosCoordenadaX.clone(), puntosOrdenadosCoordenadaY.clone(), nubePuntos.getCantidad());
+                distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
         }
+        controller.setPuntoSolucion(distanciaMinima);
     }
 
     @Override

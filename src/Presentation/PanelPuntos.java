@@ -3,10 +3,7 @@ package Presentation;
 
 import Application.DCController;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import java.awt.*;
 
 public class PanelPuntos extends JPanel{
@@ -18,6 +15,7 @@ public class PanelPuntos extends JPanel{
     private boolean isDistribucionGaussiana;
     private boolean nubePuntosCreada;
     private PanelCoordenadas panelCoordenadas;
+
 
     private DCController controller;
 

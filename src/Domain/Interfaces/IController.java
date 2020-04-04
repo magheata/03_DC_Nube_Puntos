@@ -1,5 +1,8 @@
 package Domain.Interfaces;
 
+import Domain.DTO.DistanciaMinima;
+import Domain.Punto;
+
 import java.util.concurrent.ExecutionException;
 
 public interface IController {
@@ -12,4 +15,5 @@ public interface IController {
     void start();
     void inicializarPuntos();
     void pintarPuntos();
+    void setPuntoSolucion(DistanciaMinima distanciaMinima);
 }

@@ -22,16 +22,21 @@ public class DistanciaMinima {
         this.distanciaPuntos = distanciaPuntos;
     }
 
+    public void setPuntosSolucion(){
+        punto1.setSolucion(true);
+        punto2.setSolucion(true);
+    }
+
     public double getDistanciaPuntos() {
         return distanciaPuntos;
     }
 
     @Override
     public String toString() {
-        return "DistanciaMinima{" +
-                "idPunto1=" + punto1 +
-                ", idPunto2=" + punto2 +
-                ", distanciaPuntos=" + distanciaPuntos +
-                '}';
+        return "La distancia mínima entre puntos es de: " + distanciaPuntos + "\n" +
+                "Punto 1: [" + punto1 + "]\n" +
+                "Punto 2: [" + punto2 + "]\n" +
+
+                "La ejecución del programa ha tardado " + tiempoTotal/1000 + "segundos.";
     }
 }

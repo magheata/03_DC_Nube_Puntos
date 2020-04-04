@@ -1,6 +1,7 @@
 /* Created by andreea on 22/03/2020 */
 package Application;
 
+import Domain.DTO.DistanciaMinima;
 import Domain.Interfaces.IController;
 import Domain.Nube;
 import Domain.Punto;
@@ -10,6 +11,7 @@ import Presentation.Graph.GraphPanel;
 import Presentation.PanelControl;
 import Presentation.PanelCoordenadas;
 import Presentation.PanelPuntos;
+import Presentation.Window;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -20,6 +22,12 @@ public class DCController implements IController {
     private PanelControl panelControl;
     private PuntosService puntosService;
 
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    private Window window;
+
     private PanelCoordenadas panelCoordenadas;
     private Nube nube;
     private PanelPuntos panelPuntos;
@@ -28,6 +36,7 @@ public class DCController implements IController {
     private int totalPuntos;
     private double mediaPuntos;
     private double varianzaPuntos;
+    private DistanciaMinima distanciaMinima;
 
     public boolean isGaussianDistribution() {
         return isGaussianDistribution;
@@ -47,7 +56,7 @@ public class DCController implements IController {
         varianzaPuntos = 1;
         totalPuntos = 100;
         isGaussianDistribution = false;
-        puntosService = new PuntosService();
+        puntosService = new PuntosService(this);
     }
 
     @Override
@@ -132,6 +141,14 @@ public class DCController implements IController {
         panelCoordenadas.setPintarPuntos(true);
         panelPuntos.repaint();
         //panelCoordenadas.repaint();
+    }
+
+    @Override
+    public void setPuntoSolucion(DistanciaMinima distanciaMinima) {
+        this.distanciaMinima = distanciaMinima;
+        distanciaMinima.setPuntosSolucion();
+        panelPuntos.repaint();
+        window.UserMsg(distanciaMinima.toString());
     }
 
     public void setGraphPanel(GraphPanel graphPanel) {
