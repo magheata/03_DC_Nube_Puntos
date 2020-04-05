@@ -91,25 +91,30 @@ public class PuntosService implements IPuntosService {
 
     @Override
     public DistanciaMinima naive(Punto[] puntos, int n) {
+        controller.barraGo();
         DistanciaMinima distanciaMinima = null;
         double min_distance = Double.MAX_VALUE;
         double computedDistance;
+
         for (int i = 0; i < n; i++){
             Punto puntoActual = puntos[i];
             for (int j = i + 1; j < n; j++){
                 computedDistance = puntoActual.calcularDistanciaEuclidea(puntos[j]);
                 //incrementar barra progreso
+
                 if (computedDistance < min_distance){
                     min_distance = computedDistance;
                     distanciaMinima = new DistanciaMinima(puntoActual, puntos[j], computedDistance);
                 }
             }
         }
+        controller.barraStop();
         return distanciaMinima;
     }
 
     @Override
     public DistanciaMinima divideConquerOnlogn2(Punto[] puntos, int n){
+        controller.barraGo();
         if (n <= 3){
             return naive(puntos, n);
         }
@@ -136,12 +141,13 @@ public class PuntosService implements IPuntosService {
                 puntosStrip++;
             }
         }
-
+        controller.barraStop();
         return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), false));
     }
 
     @Override
     public DistanciaMinima divideConquerOnlogn(Punto[] puntosX, Punto[] puntosY, int n){
+        controller.barraGo();
         if (n <= 3){
             return naive(puntosX, n);
         }
@@ -182,7 +188,7 @@ public class PuntosService implements IPuntosService {
                 puntosStrip++;
             }
         }
-
+        controller.barraStop();
         return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), true));
     }
 

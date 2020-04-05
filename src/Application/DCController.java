@@ -228,6 +228,8 @@ public class DCController implements IController {
 
     public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) { this.panelCoordenadas = panelCoordenadas; }
 
+    public void barraGo(){panelControl.barraGo();}
+    public void barraStop(){panelControl.barraStop();}
     public void setGraphPanel(GraphPanel graphPanel) { this.graphPanel = graphPanel; }
 
     public void setPanelControl(PanelControl panelControl) { this.panelControl = panelControl; }
