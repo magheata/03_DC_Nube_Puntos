@@ -1,4 +1,3 @@
-/* Created by andreea on 29/03/2020 */
 package Presentation.Graph;
 
 import java.awt.*;

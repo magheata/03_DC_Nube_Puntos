@@ -1,5 +1,6 @@
-/* Created by andreea on 22/03/2020 */
-
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Domain;
 
 public class Punto {
@@ -13,7 +14,6 @@ public class Punto {
     }
 
     private boolean isSolucion;
-
 
     public Punto(int id, double x, double y) {
         this.id = id;

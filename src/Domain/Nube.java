@@ -1,24 +1,21 @@
-/* Created by andreea on 22/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Domain;
 
 import Domain.Interfaces.INube;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class
-Nube implements INube {
+public class Nube implements INube {
 
     private Punto[] puntos;
     private int cantidad;
-    private int media;
-    private int desviacion;
     private final Random generator = new Random();
-    private Thread worker;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public double getMinX() {
@@ -47,17 +44,6 @@ Nube implements INube {
         this.puntos = new Punto[cantidad];
     }
 
-    public void start() {
-        worker = new Thread(this);
-        worker.start();
-    }
-
-    @Override
-    public void run() {
-        crearNubePuntos(cantidad, 5, 1);
-        System.out.println("Puntos rellenados");
-    }
-
     public Punto[] getPuntos() {
         return puntos;
     }
@@ -78,35 +64,11 @@ Nube implements INube {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-        this.puntos = new Punto[cantidad];
-    }
-
-    @Override
-    public ArrayList<Punto[]> splitX(int cantidad, int boundary){
-        ArrayList<Punto[]> puntosSeparados = new ArrayList<>();
-        Punto[] xL = new Punto[boundary];
-        Punto[] xR = new Punto[cantidad - boundary];
-
-        for (int i = 0; i < boundary; i++){
-            xL[i] = getPunto(i);
-        }
-
-        for (int i = boundary; i < cantidad; i++){
-            xR[i - boundary] = getPunto(i);
-        }
-
-        puntosSeparados.add(xL);
-        puntosSeparados.add(xR);
-        return puntosSeparados;
-    }
-
     @Override
     public Future<Nube> crearNubePuntos (int cantidad, double media, double desviacion) {
         return executor.submit(() -> {
-            double coordenadaX = 0;
-            double coordenadaY = 0;
+            double coordenadaX;
+            double coordenadaY;
             for (int i = 0; i < cantidad; i++){
                 coordenadaX = generateRandomCoordinate(media, desviacion);
                 coordenadaY = generateRandomCoordinate(media, desviacion);
@@ -130,10 +92,9 @@ Nube implements INube {
 
     @Override
     public Future<Nube> crearNubePuntosRandom (int lower, int upper) {
-        //ThreadLocalRandom generator = ThreadLocalRandom.current();
         return executor.submit(() -> {
-            double coordenadaX = 0;
-            double coordenadaY = 0;
+            double coordenadaX;
+            double coordenadaY;
             for (int i = 0; i < cantidad; i++){
                 coordenadaX = lower + (upper - lower) * generator.nextDouble();
                 coordenadaY = lower + (upper - lower) * generator.nextDouble();
@@ -155,59 +116,8 @@ Nube implements INube {
         });
     }
 
-    public double[] getCoordenateArray(boolean getCoordenadaX){
-        double [] result = new double[cantidad];
-        for (int i = 0; i < cantidad; i++){
-            if (getCoordenadaX){
-                result[i] = puntos[i].getX();
-            } else {
-                result[i] = puntos[i].getY();
-            }
-        }
-        return result;
-    }
-
     private double generateRandomCoordinate(double media, double desviacion){
         return generator.nextGaussian() * desviacion + media;
-    }
-
-    public static double findAverageUsingStream(double[] array) {
-        return Arrays.stream(array).average().orElse(Double.NaN);
-    }
-
-    public double variance(double a[], int n) {
-        double sum = 0;
-
-        for (int i = 0; i < n; i++)
-            sum += a[i];
-        double mean = sum / (double)n;
-
-        double sqDiff = 0;
-        for (int i = 0; i < n; i++)
-            sqDiff += (a[i] - mean) *
-                    (a[i] - mean);
-
-        return sqDiff / n;
-    }
-
-    public double standardDeviation(double arr[], int n) {
-        return Math.sqrt(variance(arr, n));
-    }
-
-    public int getMedia() {
-        return media;
-    }
-
-    public void setMedia(int media) {
-        this.media = media;
-    }
-
-    public int getDesviacion() {
-        return desviacion;
-    }
-
-    public void setDesviacion(int desviacion) {
-        this.desviacion = desviacion;
     }
 
     @Override

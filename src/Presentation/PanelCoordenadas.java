@@ -1,8 +1,11 @@
-/* Created by andreea on 04/04/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Presentation;
 
 import Application.DCController;
 import Domain.Punto;
+import Domain.Variables;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,9 +68,9 @@ public class PanelCoordenadas extends JPanel {
     }
 
     private void initComponents() {
-        this.setPreferredSize(new Dimension(560, 560));
         this.setDoubleBuffered(true);
-        this.setSize(new Dimension(560, 560));
+        this.setPreferredSize(new Dimension(Variables.WIDTH_PANELCOORDENADAS, Variables.HEIGHT_PANELCOORDENADAS));
+        this.setSize(new Dimension(Variables.WIDTH_PANELCOORDENADAS, Variables.HEIGHT_PANELCOORDENADAS));
     }
 
     public void setGaussianDistribution(boolean gaussianDistribution) {
@@ -92,11 +95,10 @@ public class PanelCoordenadas extends JPanel {
     }
 
     public void addPuntos(Graphics g, Punto[] puntos, double maxX, double maxY){
-        double x;
-        double y;
-        Color c = new Color(0.5f,0f,1f,.25f );
         Graphics2D g2d = (Graphics2D) g.create();
         if (!controlador.isGaussianDistribution()){
+            double x;
+            double y;
             for (int i = 0; i < puntos.length; i++) {
                 x = (puntos[i].getX() * 5) / maxX;
                 y = (puntos[i].getY()  * 5) / maxY;
@@ -110,9 +112,8 @@ public class PanelCoordenadas extends JPanel {
             }
         } else {
             for (int i = 0; i < puntos.length; i++) {
-                x = (puntos[i].getX() * 1) ;/// maxX;
-                y = (puntos[i].getY() * 1) ;/// maxY;
-                Ellipse2D dot = new Ellipse2D.Double(BORDER_GAP + (SIZE_GRAPH /2) + (x * 50), BORDER_GAP + (SIZE_GRAPH /2) + (y * 50), 10, 10);
+                Ellipse2D dot = new Ellipse2D.Double(BORDER_GAP + (SIZE_GRAPH /2) + (puntos[i].getX() * 50),
+                        BORDER_GAP + (SIZE_GRAPH /2) + (puntos[i].getY() * 50), 10, 10);
                 if (puntos[i].isSolucion()){
                     g2d.setColor(colorPuntosSolucion);
                 } else {

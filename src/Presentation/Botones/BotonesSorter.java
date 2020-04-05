@@ -1,7 +1,10 @@
-/* Created by andreea on 29/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Presentation.Botones;
 
 import Application.DCController;
+import Domain.Variables;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +13,10 @@ public class BotonesSorter extends Botones{
 
     private JButton quicksortButton, mergesortButton, javasortButton, bucketSort;
     private JButton[] botones = {javasortButton, quicksortButton, mergesortButton, bucketSort};
-    private String[] nombresBotones = {"Collections.sort()", "Quicksort", "Mergesort", "Bucketsort"};
+    private String[] nombresBotones = Variables.nombresBotonesSorter;
     private JLabel sorterLabel;
-
     private DCController controller;
-
-    public int getSorterElegido() {
-        return sorterElegido;
-    }
-
-    private int sorterElegido;
+    private int sorterElegido = -1;
 
     public BotonesSorter(DCController controller){
         super();
@@ -47,12 +44,16 @@ public class BotonesSorter extends Botones{
 
         sorterLabel = new JLabel();
         sorterLabel.setVisible(true);
-        sorterLabel.setText("ALGORITMO DE ORDENACIÓN");
+        sorterLabel.setText(Variables.LABEL_SORTER);
 
         this.add(sorterLabel, BorderLayout.NORTH);
         this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
+    }
+
+    public int getSorterElegido() {
+        return sorterElegido;
     }
 
     public void disableBotonesSorter(){

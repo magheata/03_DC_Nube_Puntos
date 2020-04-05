@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-/* Created by andreea on 29/03/2020 */
 public class GraphPanel extends JPanel implements PropertyChangeListener {
 
     /**

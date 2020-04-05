@@ -1,10 +1,13 @@
-/* Created by andreea on 22/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Application;
 
 import Domain.DTO.DistanciaMinima;
 import Domain.Interfaces.IController;
 import Domain.Nube;
 import Domain.Punto;
+import Domain.Variables;
 import Infrastructure.PuntosService;
 import Infrastructure.SortingTypes;
 import Presentation.Graph.GraphPanel;
@@ -16,49 +19,43 @@ import Presentation.Window;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+/***
+ * Controlador del programa que se encarga de realizar la comuniación entre los distintos elementos del proyecto
+ */
 public class DCController implements IController {
 
     private GraphPanel graphPanel;
     private PanelControl panelControl;
     private PuntosService puntosService;
-
-    public void setWindow(Window window) {
-        this.window = window;
-    }
-
     private Window window;
-
     private PanelCoordenadas panelCoordenadas;
     private Nube nube;
     private PanelPuntos panelPuntos;
+
+    private static  String[] pathsSort = Variables.pathsSort;
+
     private int algoritmoElegido;
     private int sorterElegido;
-    private int totalPuntos;
+    private int totalPuntos = 1000;
     private double mediaPuntos;
     private double varianzaPuntos;
+    private boolean parametrosSeteados;
     private DistanciaMinima distanciaMinima;
-
-    public boolean isGaussianDistribution() {
-        return isGaussianDistribution;
-    }
-
     private boolean isGaussianDistribution;
     private boolean puntosCambiados = true;
     private boolean nubePuntosCreada = false;
     private double maxX;
     private double maxY;
 
-    private static  String[] pathsSort = {"Infrastructure.SortingAlgorithms.Javasort", "Infrastructure.SortingAlgorithms.Quicksort",
-            "Infrastructure.SortingAlgorithms.Mergesort", "Infrastructure.SortingAlgorithms.Bucketsort"};
-
     public DCController(){
-        mediaPuntos = 0;
-        varianzaPuntos = 1;
-        totalPuntos = 1000;
-        isGaussianDistribution = false;
         puntosService = new PuntosService(this);
     }
 
+    /**
+     * Actualiza el gráfico de densidad (en la distribución Gaussiana)
+     * @param mean
+     * @param stdDeviation
+     */
     @Override
     public void updateGraph(double mean, double stdDeviation) {
         graphPanel.updateGraphWithNewValues(mean, stdDeviation);
@@ -66,8 +63,12 @@ public class DCController implements IController {
         nubePuntosCreada = false;
     }
 
+    /**
+     * Se cambia el gráfico para seguir una distribución aleatoria
+     */
     @Override
     public void disableGaussianElements() {
+        parametrosSeteados = false;
         panelCoordenadas.setPintarPuntos(false);
         puntosCambiados = true;
         nubePuntosCreada = false;
@@ -75,8 +76,12 @@ public class DCController implements IController {
         panelControl.disableGaussianElements();
     }
 
+    /**
+     * Se cambia el gráfico para seguir una distribución gaussiana
+     */
     @Override
     public void enableGaussianElements() {
+        parametrosSeteados = false;
         panelCoordenadas.setPintarPuntos(false);
         puntosCambiados = true;
         nubePuntosCreada = false;
@@ -84,16 +89,27 @@ public class DCController implements IController {
         panelControl.enableGaussianElements();
     }
 
+    /**
+     * Se habilitan los botones para seleccionar el algoritmo de ordenación
+     */
     @Override
     public void habilitarBotonesSorter() {
         panelControl.enableBotonesSorter();
     }
 
+    /**
+     * Se deshabilitan los botones para seleccionar el algoritmo de ordenación
+     */
     @Override
     public void deshabilitarBotonesSorter() {
         panelControl.disableBotonesSorter();
     }
 
+    /**
+     * Crea la nube de puntos según la distribución que se haya elegido
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     @Override
     public void crearNubePunto() throws ExecutionException, InterruptedException {
         nube = new Nube(totalPuntos);
@@ -108,11 +124,18 @@ public class DCController implements IController {
         puntosCambiados = false;
     }
 
+    /**
+     * Arrancamos el hilo encargado de realizar la búsqueda de los puntos más cercanos
+     */
     @Override
     public void start() {
         puntosService.start();
     }
 
+    /**
+     * Se inicializan los puntos en caso de que no estén creados o que los puntos hayan sido modificados (porque
+     * el número total de puntos se ha modificado, la media/desviación es diferente o la distribución es distinta)
+     */
     @Override
     public void inicializarPuntos() {
         if (!nubePuntosCreada || puntosCambiados){
@@ -127,8 +150,12 @@ public class DCController implements IController {
         }
     }
 
+    /**
+     * Se pintan los puntos en el grafo
+     */
     @Override
     public void pintarPuntos() {
+        // Obtenemos el máximo de las coordenadas para poder pintar los puntos escalados
         if (Math.abs(nube.getMinX()) < nube.getMaxX()){
             maxX = nube.getMaxX();
         } else {
@@ -141,81 +168,84 @@ public class DCController implements IController {
             maxY = Math.abs(nube.getMinY());
         }
         panelCoordenadas.setPintarPuntos(true);
+        // Repintamos panel de puntos para que aparezcan
         panelPuntos.repaint();
-        //panelCoordenadas.repaint();
     }
 
+    /**
+     * Método que una vez se haya encontrado la distancia mínima entre los puntos muestra la solución
+     * @param distanciaMinima
+     */
     @Override
     public void setPuntoSolucion(DistanciaMinima distanciaMinima) {
         this.distanciaMinima = distanciaMinima;
+        // Se marcan los puntos como solución para que se pinten
         distanciaMinima.setPuntosSolucion();
+        // Repintamos el panel con los puntos
         panelPuntos.repaint();
-        window.UserMsg(distanciaMinima.toString());
+        // Se notifica al usuario de la solución encontrada
+        window.UserMsg(distanciaMinima.toString(), false);
+        panelPuntos.setTextStartButton("Empezar ejecución");
+        parametrosSeteados = false;
     }
 
-    public void setGraphPanel(GraphPanel graphPanel) {
-        this.graphPanel = graphPanel;
-    }
-
-    public void setPanelControl(PanelControl panelControl) {
-        this.panelControl = panelControl;
-    }
-
-    public void setAlgoritmoElegido(int algoritmoElegido) {
-        this.algoritmoElegido = algoritmoElegido;
-    }
-
-    public void setSorterElegido(int sorterElegido) {
-        this.sorterElegido = sorterElegido;
-    }
-
+    /**
+     * Método que recoge los parámetros (algoritmo de ordenación elegido, complejidad elegida) y los setea en los
+     * lugares pertinentes
+     */
+    @Override
     public void setearParametrosElegidos(){
-        setAlgoritmoElegido(panelControl.getAlgoritmoElegido());
-        setSorterElegido(panelControl.getSorterElegido());
-        puntosService.setAlgoritmoElegido(algoritmoElegido);
-        if (algoritmoElegido != SortingTypes.Javasort.ordinal()){
-            puntosService.setClaseSort(pathsSort[sorterElegido]);
+        //Si no se ha seleccionado ningún algoritmo se muestra un error
+        if (panelControl.getAlgoritmoElegido() == -1){
+            window.UserMsg("Debe seleccionar la complejidad del algoritmo", true);
+        /* Si se ha seleccionado un algoritmo distinto al Naive y no se ha seleccionado un algoritmo de ordenación
+        para ordenar los puntos, se muestra un error*/
+        } else if (panelControl.getAlgoritmoElegido() > 0 && panelControl.getSorterElegido() == -1){
+            window.UserMsg("Debe seleccionar el algoritmo de ordenación", true);
+        // En caso contrario se setean los parámetros
+        } else {
+            setAlgoritmoElegido(panelControl.getAlgoritmoElegido());
+            setSorterElegido(panelControl.getSorterElegido());
+            puntosService.setAlgoritmoElegido(algoritmoElegido);
+            if (algoritmoElegido != SortingTypes.Javasort.ordinal()){
+                puntosService.setClaseSort(pathsSort[sorterElegido]);
+            }
+            parametrosSeteados = true;
         }
     }
 
-    public void setMediaPuntos(double mediaPuntos) {
-        this.mediaPuntos = mediaPuntos;
-    }
+    //region SETTERS Y GETTERS
+    public void setMediaPuntos(double mediaPuntos) { this.mediaPuntos = mediaPuntos; }
 
-    public void setVarianzaPuntos(double varianzaPuntos) {
-        this.varianzaPuntos = varianzaPuntos;
-    }
+    public void setVarianzaPuntos(double varianzaPuntos) { this.varianzaPuntos = varianzaPuntos; }
 
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
         nubePuntosCreada = false;
     }
 
-    public Punto[] getPuntosNube(){
-        return nube.getPuntos();
-    }
+    public Punto[] getPuntosNube(){ return nube.getPuntos(); }
 
-    public void actbarra(){panelControl.actbarra();}
+    public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) { this.panelCoordenadas = panelCoordenadas; }
 
-    public void maxbarra(int m ){
-        panelControl.maxbarra(m);
-    }
+    public void setGraphPanel(GraphPanel graphPanel) { this.graphPanel = graphPanel; }
 
-    public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) {
-        this.panelCoordenadas = panelCoordenadas;
-    }
+    public void setPanelControl(PanelControl panelControl) { this.panelControl = panelControl; }
 
+    public void setAlgoritmoElegido(int algoritmoElegido) { this.algoritmoElegido = algoritmoElegido; }
 
-    public double getMaxX() {
-        return maxX;
-    }
+    public void setSorterElegido(int sorterElegido) { this.sorterElegido = sorterElegido; }
 
-    public double getMaxY() {
-        return maxY;
-    }
+    public double getMaxX() { return maxX; }
 
-    public void setPanelPuntos(PanelPuntos panelPuntos) {
-        this.panelPuntos = panelPuntos;
-    }
+    public double getMaxY() { return maxY; }
 
+    public void setPanelPuntos(PanelPuntos panelPuntos) { this.panelPuntos = panelPuntos; }
+
+    public void setWindow(Window window) { this.window = window; }
+
+    public boolean isParametrosSeteados() { return parametrosSeteados; }
+
+    public boolean isGaussianDistribution() { return isGaussianDistribution; }
+    //endregion
 }

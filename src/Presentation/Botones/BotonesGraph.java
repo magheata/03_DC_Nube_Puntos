@@ -1,7 +1,10 @@
-/* Created by andreea on 30/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Presentation.Botones;
 
 import Application.DCController;
+import Domain.Variables;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,19 +17,13 @@ public class BotonesGraph extends Botones{
 
     private DCController controller;
 
-    private int MEAN_MAX = 5;
-    private double VARIANCE_MAX = 2.75;
-    private double VARIANCE_MIN = 0;
-    private int PUNTOS_MAX = 100000;
-    private int PUNTOS_MIN = 10;
-
     public BotonesGraph(DCController controller){
         super();
         this.controller = controller;
 
         graphLabel = new JLabel();
         graphLabel.setVisible(true);
-        graphLabel.setText("DEFINICIÓN DE LOS DATOS");
+        graphLabel.setText(Variables.LABEL_GRAPH);
 
         inicializarElementosPuntos();
 
@@ -94,17 +91,16 @@ public class BotonesGraph extends Botones{
         totalPointsTextArea.setOpaque(false);
 
         puntosTotalesLabel = new JLabel();
-        puntosTotalesLabel.setText("Total puntos: ");
-
+        puntosTotalesLabel.setText(Variables.LABEL_PUNTOS_TOTALES);
         inicializarBotonesPuntos();
     }
 
     private void inicializarBotonesPuntos(){
         decrementarPuntosButton = new JButton();
-        decrementarPuntosButton.setText("-");
+        decrementarPuntosButton.setText(Variables.LABEL_DECREMENTAR);
         decrementarPuntosButton.addActionListener(e -> {
             int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales <= PUNTOS_MIN)) {
+            if (!(puntosTotales <= Variables.PUNTOS_MIN)) {
                 puntosTotales = puntosTotales / 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
                 controller.setTotalPuntos(puntosTotales);
@@ -112,10 +108,10 @@ public class BotonesGraph extends Botones{
         });
 
         incrementarPuntosButton = new JButton();
-        incrementarPuntosButton.setText("+");
+        incrementarPuntosButton.setText(Variables.LABEL_INCREMENTAR);
         incrementarPuntosButton.addActionListener(e -> {
             int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales >= PUNTOS_MAX)) {
+            if (!(puntosTotales >= Variables.PUNTOS_MAX)) {
                 puntosTotales = puntosTotales * 10;
                 totalPointsTextArea.setText(Integer.toString(puntosTotales));
                 controller.setTotalPuntos(puntosTotales);
@@ -125,10 +121,10 @@ public class BotonesGraph extends Botones{
 
     private void inicializarBotonesGaussianos(){
         increaseMeanButton = new JButton();
-        increaseMeanButton.setText("+");
+        increaseMeanButton.setText(Variables.LABEL_INCREMENTAR);
         increaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media >= MEAN_MAX)) {
+            if (!(media >= Variables.MEAN_MAX)) {
                 media = media + 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -137,10 +133,10 @@ public class BotonesGraph extends Botones{
         });
 
         decreaseMeanButton = new JButton();
-        decreaseMeanButton.setText("-");
+        decreaseMeanButton.setText(Variables.LABEL_DECREMENTAR);
         decreaseMeanButton.addActionListener(e -> {
             int media = Integer.parseInt(meanTextArea.getText());
-            if (!(media <= -MEAN_MAX)) {
+            if (!(media <= -Variables.MEAN_MAX)) {
                 media = media - 1;
                 meanTextArea.setText(Integer.toString(media));
                 controller.updateGraph(media, -99);
@@ -149,10 +145,10 @@ public class BotonesGraph extends Botones{
         });
 
         increaseVarianceButton = new JButton();
-        increaseVarianceButton.setText("+");
+        increaseVarianceButton.setText(Variables.LABEL_INCREMENTAR);
         increaseVarianceButton.addActionListener(e -> {
             double varianza = Double.parseDouble(varianceTextArea.getText());
-            if (!(varianza >= VARIANCE_MAX)) {
+            if (!(varianza >= Variables.VARIANCE_MAX)) {
                 varianza = varianza + 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);
@@ -161,10 +157,10 @@ public class BotonesGraph extends Botones{
         });
 
         decreaseVarianceButton = new JButton();
-        decreaseVarianceButton.setText("-");
+        decreaseVarianceButton.setText(Variables.LABEL_DECREMENTAR);
         decreaseVarianceButton.addActionListener(e -> {
             double varianza = Double.parseDouble(varianceTextArea.getText());
-            if (!(varianza <= VARIANCE_MIN)) {
+            if (!(varianza <= Variables.VARIANCE_MIN)) {
                 varianza = varianza - 0.25;
                 varianceTextArea.setText(Double.toString(varianza));
                 controller.updateGraph(-99, varianza);

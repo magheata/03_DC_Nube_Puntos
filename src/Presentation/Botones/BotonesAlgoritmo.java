@@ -1,7 +1,10 @@
-/* Created by andreea on 29/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Presentation.Botones;
 
 import Application.DCController;
+import Domain.Variables;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,22 +13,16 @@ public class BotonesAlgoritmo extends Botones{
 
     private JButton naiveButton, nlogn2Button, nlognButton;
     public JButton[] botones = {naiveButton, nlogn2Button, nlognButton};
-    public String[] nombresBotones = {"O(n^2)", "O((n·logn)^2)", "O(n·logn)"};
+    public String[] nombresBotones = Variables.nombresBotonesAlgoritmo;
     private JLabel algoritmoLabel;
-
-    public int getAlgoritmoElegido() {
-        return algoritmoElegido;
-    }
-
-    private int algoritmoElegido;
-
+    private int algoritmoElegido = -1;
     private DCController controller;
 
     public BotonesAlgoritmo(DCController controller){
         super();
         this.controller = controller;
         algoritmoLabel = new JLabel();
-        algoritmoLabel.setText("COMPLEJIDAD DEL ALGORITMO");
+        algoritmoLabel.setText(Variables.LABEL_ALGORITMO);
 
         algoritmoLabel.setVisible(true);
         this.add(algoritmoLabel, BorderLayout.NORTH);
@@ -60,4 +57,9 @@ public class BotonesAlgoritmo extends Botones{
         this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
     }
+
+    public int getAlgoritmoElegido() {
+        return algoritmoElegido;
+    }
+
 }

@@ -1,4 +1,6 @@
-/* Created by andreea on 26/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Infrastructure.SortingAlgorithms;
 
 import Domain.Punto;
@@ -7,7 +9,6 @@ import java.util.*;
 
 public class Bucketsort extends Sort{
 
-    private List<List<Punto>> buckets;
     private Comparator<Integer> comparator;
 
     public Bucketsort() {
@@ -43,7 +44,6 @@ public class Bucketsort extends Sort{
     }
 
     private List<List<Integer>> splitIntoUnsortedBuckets(List<Integer> initialList){
-
         Collections.sort(initialList);
         final double max = initialList.get(initialList.size() - 1);
         final int numberOfBuckets = (int) Math.sqrt(initialList.size());
@@ -53,10 +53,8 @@ public class Bucketsort extends Sort{
 
         //distribute the data
         for (Integer i : initialList) {
-            int j = hash(i, max, numberOfBuckets);
             buckets.get(hash(i, max, numberOfBuckets)).add(i);
         }
-
         return buckets;
     }
 

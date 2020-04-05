@@ -1,4 +1,6 @@
-/* Created by andreea on 29/03/2020 */
+/**
+ * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
+ */
 package Presentation;
 
 import Application.DCController;
