@@ -3,7 +3,7 @@
  */
 package Application;
 
-import Domain.DTO.DistanciaMinima;
+import Application.DTO.DistanciaMinima;
 import Domain.Interfaces.IController;
 import Domain.Nube;
 import Domain.Punto;
@@ -33,6 +33,10 @@ public class DCController implements IController {
     private PanelPuntos panelPuntos;
 
     private static  String[] pathsSort = Variables.pathsSort;
+
+    public int getAlgoritmoElegido() {
+        return algoritmoElegido;
+    }
 
     private int algoritmoElegido;
     private int sorterElegido;
@@ -235,10 +239,22 @@ public class DCController implements IController {
     public void setGraphPanel(GraphPanel graphPanel) { this.graphPanel = graphPanel; }
 
     public void setPanelControl(PanelControl panelControl) { this.panelControl = panelControl; }
+
     public void barraAct(){panelControl.barraAct();}
+
     public void setMax(int v){ panelControl.setmax(v);}
 
-    public void setAlgoritmoElegido(int algoritmoElegido) { this.algoritmoElegido = algoritmoElegido; }
+    public void setAlgoritmoElegido(int algoritmoElegido) {
+        this.algoritmoElegido = algoritmoElegido;
+        if (algoritmoElegido == 0 && totalPuntos != 100000){
+            panelControl.setBarraRecursiva(false);
+        } else if (algoritmoElegido != 0){
+            panelControl.setBarraRecursiva(true);
+        } else {
+            panelControl.setBarraRecursiva(true);
+        }
+        panelControl.modificarBarra();
+    }
 
     public void setSorterElegido(int sorterElegido) { this.sorterElegido = sorterElegido; }
 

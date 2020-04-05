@@ -5,6 +5,9 @@ package Infrastructure.SortingAlgorithms;
 
 import Domain.Punto;
 
+/**
+ * Clase que implementa el Quicksort.
+ */
 public class Quicksort extends Sort{
 
     private int low;

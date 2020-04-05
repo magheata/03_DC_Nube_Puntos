@@ -1,6 +1,6 @@
 package Domain.Interfaces;
 
-import Domain.DTO.DistanciaMinima;
+import Application.DTO.DistanciaMinima;
 import Domain.Punto;
 
 public interface IPuntosService extends Runnable{

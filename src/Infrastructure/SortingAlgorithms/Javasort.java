@@ -7,6 +7,9 @@ import Domain.Punto;
 
 import java.util.*;
 
+/**
+ * Clase que implementa el Javasort.
+ */
 public class Javasort extends Sort{
 
     public Javasort() {

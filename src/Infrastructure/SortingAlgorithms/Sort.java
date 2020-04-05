@@ -5,6 +5,9 @@ package Infrastructure.SortingAlgorithms;
 
 import Domain.Punto;
 
+/**
+ * Clase padre se las clases que implementan los algoritmos de ordenación
+ */
 public abstract class Sort{
 
     protected Punto[] puntos;

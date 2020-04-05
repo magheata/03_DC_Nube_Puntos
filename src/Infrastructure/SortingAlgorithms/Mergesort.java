@@ -5,6 +5,10 @@ package Infrastructure.SortingAlgorithms;
 
 import Domain.Punto;
 
+
+/**
+ * Clase que implementa el Mergesort.
+ */
 public class Mergesort extends Sort{
 
     public Mergesort(){

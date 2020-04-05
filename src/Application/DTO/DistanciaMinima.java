@@ -1,10 +1,13 @@
 /**
  * @authors Miruna Andreea Gheata, Rafael Adrián Gil Cañestro
  */
-package Domain.DTO;
+package Application.DTO;
 
 import Domain.Punto;
 
+/**
+ * Elemento que sirve para guardar la solución
+ */
 public class DistanciaMinima {
 
     private Punto punto1;

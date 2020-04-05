@@ -9,6 +9,10 @@ import Domain.Variables;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase que define todos los elementos de control relacionados con la nube de puntos y la distribución de los mismos
+ * en caso de que se trate de una distribución Gaussiana
+ */
 public class BotonesGraph extends Botones{
 
     private JButton increaseMeanButton, decreaseMeanButton, increaseVarianceButton, decreaseVarianceButton, incrementarPuntosButton, decrementarPuntosButton;

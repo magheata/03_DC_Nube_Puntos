@@ -3,6 +3,9 @@
  */
 package Domain;
 
+/**
+ * Clase que define el elemento Punto
+ */
 public class Punto {
 
     private double x;

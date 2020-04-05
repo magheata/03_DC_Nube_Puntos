@@ -1,11 +1,11 @@
 package Presentation.Graph;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
+/**
+ * Clase que se encarga de pintar el gráfico de densidad
+ */
 public class Graph {
-
-    public static final String VERSION = "Java Plot 1.1";
 
     /**
      * A graph may plot as many functions as it wants
@@ -153,40 +153,6 @@ public class Graph {
     }
 
     /**
-     * Takes a numeric distance and calculates how many actual pixels high that is.
-     */
-    public double getActualHeight(double height) {
-        return height / unitsPerPixelY;
-    }
-
-    /**
-     * Takes a numeric distance and calculates how many actual pixels wide that is.
-     */
-    public double getActualWidth(double width) {
-        return width / unitsPerPixelX;
-    }
-
-    /**
-     * Takes a set number of actual pixels on the screen (in the Y direction)
-     * And returns how long they are, if plotted on the graph.
-     */
-    public double getPlotHeight(double height) {
-        return height * unitsPerPixelY;
-    }
-
-    /**
-     * Takes a set number of actual pixels on the screen (in the X direction)
-     * And returns how long they are, if plotted on the graph.
-     */
-    public double getPlotWidth(double width) {
-        return width * unitsPerPixelX;
-    }
-
-    public double getActualX(int pixelX) {
-        return plotSettings.minX + (pixelX * unitsPerPixelX);
-    }
-
-    /**
      * Plots a line between two sets of values.
      *
      * @param g  Graphics context upon which to write
@@ -198,17 +164,4 @@ public class Graph {
     public void drawLine(Graphics g, double x1, double y1, double x2, double y2) {
         g.drawLine(getPlotX(x1), getPlotY(y1), getPlotX(x2), getPlotY(y2));
     }
-
-    /**
-     * Returns the graph as an image so that it can be saved.
-     */
-    public BufferedImage getImage(int width, int height) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-        g.setColor(plotSettings.backgroundColor);
-        g.fillRect(0, 0, width, height);
-        draw(g, width, height);
-        return image;
-    }
-
 }

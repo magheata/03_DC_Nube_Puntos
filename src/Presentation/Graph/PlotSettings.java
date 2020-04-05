@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.Format;
 
+/**
+ * Clase que sirve para definir las características del gráfico de densidad
+ */
 public class PlotSettings implements Serializable {
 
     /**

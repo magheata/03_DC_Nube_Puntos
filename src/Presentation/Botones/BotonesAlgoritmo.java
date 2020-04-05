@@ -9,6 +9,9 @@ import Domain.Variables;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase que contiene los botones de control de los algoritmos que se pueden utilizar para encontrar la distancia mínima
+ */
 public class BotonesAlgoritmo extends Botones{
 
     private JButton naiveButton, nlogn2Button, nlognButton;

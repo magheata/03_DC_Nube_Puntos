@@ -3,6 +3,11 @@
  */
 package Domain;
 
+import java.awt.*;
+
+/**
+ * Clase que contiene todas las variables empleadas en el proyecto
+ */
 public class Variables {
     public static final String TEXTO_ERROR = "Error";
     public static final String TEXTO_SOLUCION = "Solución";
@@ -24,6 +29,9 @@ public class Variables {
     public static final String LABEL_INCREMENTAR = "+";
     public static final String LABEL_DECREMENTAR = "-";
 
+    public static final Color colorPuntos = new Color(0.5f,0f,1f,.25f );
+    public static final Color colorPuntosSolucion = new Color(0f,1f,0f);
+
     public static final int MEAN_MAX = 5;
     public static final double VARIANCE_MAX = 2.75;
     public static final double VARIANCE_MIN = 0;
@@ -33,4 +41,13 @@ public class Variables {
     public static final int HEIGHT_PANELPUNTOS = 610;
     public static final int WIDTH_PANELCOORDENADAS = 560;
     public static final int HEIGHT_PANELCOORDENADAS = 560;
+    public static final int WIDTH_GRAFICO_DENSIDAD = 450;
+    public static final int HEIGHT_GRAFICO_DENSIDAD = 150;
+    public static final int COORDENADAS_BORDER_GAP = 30;
+    public static final int COORDENADAS_SIZE_GRAPH = 500;
+
+    public static final int xMinPlotSettings = -5;
+    public static final int xMaxPlotSettings = 5;
+    public static final int yMinPlotSettings = 0;
+    public static final int yMaxPlotSettings = 1;
 }

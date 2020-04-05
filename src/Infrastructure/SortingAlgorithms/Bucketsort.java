@@ -7,6 +7,10 @@ import Domain.Punto;
 
 import java.util.*;
 
+
+/**
+ * Clase que implementa el Bucketsort.
+ */
 public class Bucketsort extends Sort{
 
     private Comparator<Integer> comparator;
@@ -21,6 +25,11 @@ public class Bucketsort extends Sort{
         };
     }
 
+    /**
+     * Método que ordena mediante el algoritmo de Bucketsort. Se ordena por las coordenadas pero se dividen en buckets
+     * por id
+     * @param puntos
+     */
     @Override
     public void sort(Punto[] puntos) {
         this.puntos = puntos;

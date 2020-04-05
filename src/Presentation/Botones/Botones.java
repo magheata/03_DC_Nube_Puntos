@@ -6,6 +6,9 @@ package Presentation.Botones;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase padre que define las funciones comunes que implementan las clases BotonesSorter, BotonesAlgoritmo y BotonesGraph
+ */
 public abstract class Botones extends JPanel{
 
     public Botones(){
@@ -31,33 +34,4 @@ public abstract class Botones extends JPanel{
         button.setContentAreaFilled(true);
         button.setOpaque(true);
     }
-
-
-    protected GridBagConstraints getConstraintsLabel(){
-        GridBagConstraints constraintsalgoritmoLabel = new GridBagConstraints();
-        constraintsalgoritmoLabel.fill = GridBagConstraints.HORIZONTAL;
-        constraintsalgoritmoLabel.gridwidth = 3;
-        constraintsalgoritmoLabel.gridx = 0;
-        constraintsalgoritmoLabel.gridy = 0;
-        return constraintsalgoritmoLabel;
-    }
-
-    protected GridBagConstraints getConstraintsButtonsPanel(){
-        GridBagConstraints constraintsbuttonsPanel = new GridBagConstraints();
-        constraintsbuttonsPanel.fill = GridBagConstraints.HORIZONTAL;
-        constraintsbuttonsPanel.weightx = 0;
-        constraintsbuttonsPanel.gridx = 0;
-        constraintsbuttonsPanel.gridy = 2;
-        return constraintsbuttonsPanel;
-    }
-
-    protected GridBagConstraints getConstraintsSeparator(){
-        GridBagConstraints constraintsSeparator = new GridBagConstraints();
-        constraintsSeparator.fill = GridBagConstraints.HORIZONTAL;
-        constraintsSeparator.weightx = 0;
-        constraintsSeparator.gridx = 0;
-        constraintsSeparator.gridy = 1;
-        return constraintsSeparator;
-    }
-
 }

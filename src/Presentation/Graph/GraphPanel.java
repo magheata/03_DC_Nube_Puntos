@@ -1,27 +1,26 @@
 package Presentation.Graph;
 
+import Domain.Variables;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GraphPanel extends JPanel implements PropertyChangeListener {
+/**
+ * Panel en el que se define el gráfico de densidad
+ */
+public class GraphPanel extends JPanel{
 
     /**
      * The graph object renders charts and graphs.
      */
     protected Graph graph;
-
-    public void setNuevasDimeniones(int width, int height) {
-        dimensiones.width = width;
-        dimensiones.height = height;
-    }
-
     protected Dimension dimensiones;
 
     public GraphPanel(){
-        dimensiones = new Dimension(450, 150);
+        dimensiones = new Dimension(Variables.WIDTH_GRAFICO_DENSIDAD, Variables.HEIGHT_GRAFICO_DENSIDAD);
     }
     /**
      * Initialises the panel with a graph object
@@ -57,29 +56,5 @@ public class GraphPanel extends JPanel implements PropertyChangeListener {
     @Override
     public Dimension getPreferredSize() {
         return dimensiones;
-    }
-
-    /**
-     * Returns an image of the graph which can be saved to disk.
-     */
-    public BufferedImage getImage() {
-        return graph != null? graph.getImage(getWidth(), getHeight()) : null;
-    }
-
-    /**
-     * Provides access to the graph object.
-     * @return
-     */
-    public Graph getGraph() {
-        return graph;
-    }
-
-    public void setGraphPanelSize(int width, int height){
-        setSize(width, height);
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
     }
 }

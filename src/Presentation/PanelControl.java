@@ -4,6 +4,7 @@
 package Presentation;
 
 import Application.DCController;
+import Domain.Variables;
 import Presentation.Botones.BotonesAlgoritmo;
 import Presentation.Botones.BotonesGraph;
 import Presentation.Botones.BotonesSorter;
@@ -14,23 +15,41 @@ import Presentation.Graph.PlotSettings;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel que contiene los botones de control de los puntos y de los elementos del proceso. Dentro de este panel se puede:
+ * 1. Elegir el tipo de algoritmo según su coste computaciona
+ * 2. Elegir el tipo de algoritmo de ordención que se quiere utilizar para ordenar los puntos. Hay 4 tipos se ordenación:
+ *    la de Java (Collections.sort), el Mergesort, el Quicksort y el Bucketsort.
+ * 3. Elegir la media y la desviación de los puntos de la distribución gaussiana
+ * También consta de un gráfico de densidad con el que se puede ver la distribución de los puntos gaussianos
+ */
 public class PanelControl extends JPanel {
 
     public BotonesAlgoritmo botonesAlgoritmoPanel;
     public BotonesSorter botonesSorterPanel;
     public BotonesGraph botonesGraphPanel;
     protected GraphPanel graphPanel;
-    JProgressBar BarraPoints;
+    protected JProgressBar BarraPointsIterative;
+    protected JProgressBar BarraPointsRecursive;
 
     private DCController controller;
 
-    private int xMinPlotSettings = -20;
-    private int xMaxPlotSettings = 20;
-    private int yMinPlotSettings = 0;
-    private int yMaxPlotSettings = 1;
+    // Rango del gráfico de densidad de los puntos
+    private int xMinPlotSettings = Variables.xMinPlotSettings;
+    private int xMaxPlotSettings = Variables.xMaxPlotSettings;
+    private int yMinPlotSettings = Variables.yMinPlotSettings;
+    private int yMaxPlotSettings = Variables.yMaxPlotSettings;
 
     private double definedAverage = 0;
     private double definedVariance = 1;
+
+    public void setBarraRecursiva(boolean barraRecursiva) {
+        this.barraRecursiva = barraRecursiva;
+    }
+
+    private boolean barraRecursiva;
+
+    private GridBagConstraints constraintsBarraPoints;
 
     public PanelControl(DCController controller){
         this.controller = controller;
@@ -67,17 +86,20 @@ public class PanelControl extends JPanel {
         constraintsAlgoritmoPanel.gridx = 0;
         constraintsAlgoritmoPanel.gridy = 1;
 
-        //progressBar puntos
-        BarraPoints = new JProgressBar();
+        BarraPointsIterative = new JProgressBar();
+        BarraPointsRecursive = new JProgressBar();
+
         //endregion
-        GridBagConstraints constraintsBarraPoints = new GridBagConstraints();
+
+        constraintsBarraPoints = new GridBagConstraints();
         constraintsBarraPoints.fill = GridBagConstraints.HORIZONTAL;
         constraintsBarraPoints.gridwidth = 3;
         constraintsBarraPoints.gridheight = 1;
         constraintsBarraPoints.gridx = 0;
         constraintsBarraPoints.gridy = 2;
+
         //region BOTONES SORTER
-        botonesSorterPanel = new BotonesSorter(controller);
+        botonesSorterPanel = new BotonesSorter();
 
         GridBagConstraints constraintsBotonesSorterPanel = new GridBagConstraints();
 
@@ -91,10 +113,29 @@ public class PanelControl extends JPanel {
         panel.add(botonesSorterPanel, constraintsBotonesSorterPanel);
         panel.add(addGraphToPanel(), constraintsGraphWrapperPanel);
         this.add(panel, constraintsPanel);
-        this.add(BarraPoints, constraintsBarraPoints);
+        if (controller.getAlgoritmoElegido() == 0){
+            this.add(BarraPointsIterative, constraintsBarraPoints);
+        } else if (controller.getAlgoritmoElegido() == 0 && controller.getPuntosNube().length == 100000){
+            this.add(BarraPointsRecursive, constraintsBarraPoints);
+        } else {
+            this.add(BarraPointsRecursive, constraintsBarraPoints);
+        }
         this.setVisible(true);
     }
 
+    public void modificarBarra(){
+        if (barraRecursiva){
+            this.remove(BarraPointsIterative);
+            this.add(BarraPointsRecursive, constraintsBarraPoints);
+        } else {
+            this.remove(BarraPointsRecursive);
+            this.add(BarraPointsIterative, constraintsBarraPoints);
+        }
+    }
+    /**
+     * Función que añade el gráfico de densidad a la ventana
+     * @return
+     */
     private JPanel addGraphToPanel(){
 
         JPanel graphPanelWrapper = new JPanel();
@@ -163,21 +204,20 @@ public class PanelControl extends JPanel {
     }
 
     public void barraGo(){
-BarraPoints.setIndeterminate(true);
+        BarraPointsRecursive.setIndeterminate(true);
     }
 
     public void barraStop(){
-        BarraPoints.setIndeterminate(false);
+        BarraPointsRecursive.setIndeterminate(false);
     }
 
     public void barraAct(){
-        int v = BarraPoints.getValue();
-        BarraPoints.setValue(++v);
+        int v = BarraPointsIterative.getValue();
+        BarraPointsIterative.setValue(++v);
     }
 
     public void setmax(int v){
-        BarraPoints.setMaximum(v);
-        BarraPoints.setValue(0);
+        BarraPointsIterative.setMaximum(v);
+        BarraPointsIterative.setValue(0);
     }
-
 }

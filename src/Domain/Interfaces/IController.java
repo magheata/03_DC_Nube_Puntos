@@ -1,6 +1,6 @@
 package Domain.Interfaces;
 
-import Domain.DTO.DistanciaMinima;
+import Application.DTO.DistanciaMinima;
 
 import java.util.concurrent.ExecutionException;
 

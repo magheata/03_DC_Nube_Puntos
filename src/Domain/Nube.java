@@ -11,28 +11,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Clase que define el elemento Nube y que además implementa los métodos de creación de los puntos
+ */
 public class Nube implements INube {
 
     private Punto[] puntos;
     private int cantidad;
     private final Random generator = new Random();
     private ExecutorService executor = Executors.newSingleThreadExecutor();
-
-    public double getMinX() {
-        return minX;
-    }
-
-    public double getMinY() {
-        return minY;
-    }
-
-    public double getMaxX() {
-        return maxX;
-    }
-
-    public double getMaxY() {
-        return maxY;
-    }
 
     private double minX = Double.MAX_VALUE;
     private double minY = Double.MAX_VALUE;
@@ -44,26 +31,13 @@ public class Nube implements INube {
         this.puntos = new Punto[cantidad];
     }
 
-    public Punto[] getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(Punto[] puntos) {
-        this.puntos = puntos;
-    }
-
-    public Punto getPunto(int i) {
-        return puntos[i];
-    }
-
-    public void setPunto(Punto punto, int i) {
-        this.puntos[i] = punto;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
+    /**
+     * Método que crea los puntos siguiendo una distribución gaussiana
+     * @param cantidad
+     * @param media
+     * @param desviacion
+     * @return
+     */
     @Override
     public Future<Nube> crearNubePuntos (int cantidad, double media, double desviacion) {
         return executor.submit(() -> {
@@ -90,6 +64,12 @@ public class Nube implements INube {
         });
     }
 
+    /**
+     * Método que crea los puntos siguiendo una distribución aleatoria
+     * @param lower
+     * @param upper
+     * @return
+     */
     @Override
     public Future<Nube> crearNubePuntosRandom (int lower, int upper) {
         return executor.submit(() -> {
@@ -126,4 +106,43 @@ public class Nube implements INube {
                 "puntos=" + Arrays.toString(puntos) +
                 '}';
     }
+
+    //region SETTERS Y GETTERS
+    public Punto[] getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(Punto[] puntos) {
+        this.puntos = puntos;
+    }
+
+    public Punto getPunto(int i) {
+        return puntos[i];
+    }
+
+    public void setPunto(Punto punto, int i) {
+        this.puntos[i] = punto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+
+    public double getMinX() {
+        return minX;
+    }
+
+    public double getMinY() {
+        return minY;
+    }
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public double getMaxY() {
+        return maxY;
+    }
+    //endregion
 }

@@ -2,6 +2,9 @@ package Presentation.Graph;
 
 import java.awt.*;
 
+/**
+ * Clase que define cómo es el pintado de un gráfico de densidad que sigue una distribución gaussiana
+ */
 public class GaussianFunctionPlotter {
 
     protected double stdDeviation, variance, mean;
@@ -12,16 +15,8 @@ public class GaussianFunctionPlotter {
         this.mean = mean;
     }
 
-    public GaussianFunctionPlotter() {
-
-    }
-
     public double getY(double x) {
         return Math.pow(Math.exp(-(((x - mean) * (x - mean)) / ((2 * variance)))), 1 / (stdDeviation * Math.sqrt(2 * Math.PI)));
-    }
-
-    public String getName() {
-        return "Gaussian Curve";
     }
 
     public void plot(Graph graph, Graphics g, int chartWidth) {

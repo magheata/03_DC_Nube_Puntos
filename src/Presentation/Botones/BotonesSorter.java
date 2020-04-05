@@ -3,24 +3,25 @@
  */
 package Presentation.Botones;
 
-import Application.DCController;
 import Domain.Variables;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel en el que se definen los botones de control para seleccionar el tipo de algoritmo de ordenación que se desea
+ * utilizar
+ */
 public class BotonesSorter extends Botones{
 
     private JButton quicksortButton, mergesortButton, javasortButton, bucketSort;
     private JButton[] botones = {javasortButton, quicksortButton, mergesortButton, bucketSort};
     private String[] nombresBotones = Variables.nombresBotonesSorter;
     private JLabel sorterLabel;
-    private DCController controller;
     private int sorterElegido = -1;
 
-    public BotonesSorter(DCController controller){
+    public BotonesSorter(){
         super();
-        this.controller = controller;
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
         for (int i = 0; i < botones.length; i++){
