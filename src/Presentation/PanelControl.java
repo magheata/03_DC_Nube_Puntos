@@ -40,6 +40,17 @@ public class PanelControl extends JPanel {
     private void initComponents(){
         this.setLayout(new GridBagLayout());
 
+        JPanel panel = new JPanel();
+
+        GridBagConstraints constraintsPanel = new GridBagConstraints();
+
+        constraintsPanel.fill = GridBagConstraints.HORIZONTAL;
+        constraintsPanel.gridwidth = 3;
+        constraintsPanel.gridheight = 2;
+        constraintsPanel.gridx = 0;
+        constraintsPanel.gridy = 0;
+
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints constraintsGraphWrapperPanel = new GridBagConstraints();
         constraintsGraphWrapperPanel.fill = GridBagConstraints.HORIZONTAL;
         constraintsGraphWrapperPanel.anchor = GridBagConstraints.PAGE_START;
@@ -58,8 +69,13 @@ public class PanelControl extends JPanel {
 
         //progressBar puntos
         BarraPoints = new JProgressBar();
-                //endregion
-
+        //endregion
+        GridBagConstraints constraintsBarraPoints = new GridBagConstraints();
+        constraintsBarraPoints.fill = GridBagConstraints.HORIZONTAL;
+        constraintsBarraPoints.gridwidth = 3;
+        constraintsBarraPoints.gridheight = 1;
+        constraintsBarraPoints.gridx = 0;
+        constraintsBarraPoints.gridy = 2;
         //region BOTONES SORTER
         botonesSorterPanel = new BotonesSorter(controller);
 
@@ -71,12 +87,12 @@ public class PanelControl extends JPanel {
         constraintsBotonesSorterPanel.gridy = 2;
         //endregion
 
-        this.add(botonesAlgoritmoPanel, constraintsAlgoritmoPanel);
-        this.add(botonesSorterPanel, constraintsBotonesSorterPanel);
-        this.add(addGraphToPanel(), constraintsGraphWrapperPanel);
-        this.add(BarraPoints);
+        panel.add(botonesAlgoritmoPanel, constraintsAlgoritmoPanel);
+        panel.add(botonesSorterPanel, constraintsBotonesSorterPanel);
+        panel.add(addGraphToPanel(), constraintsGraphWrapperPanel);
+        this.add(panel, constraintsPanel);
+        this.add(BarraPoints, constraintsBarraPoints);
         this.setVisible(true);
-
     }
 
     private JPanel addGraphToPanel(){
