@@ -195,11 +195,9 @@ public class DCController implements IController {
         return nube.getPuntos();
     }
 
-    public void actbarra(){panelControl.actbarra();}
+    public void barraGo(){panelControl.barraGo();}
+    public void barraStop(){panelControl.barraStop();}
 
-    public void maxbarra(int m ){
-        panelControl.maxbarra(m);
-    }
 
     public void setPanelCoordenadas(PanelCoordenadas panelCoordenadas) {
         this.panelCoordenadas = panelCoordenadas;
