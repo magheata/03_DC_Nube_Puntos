@@ -57,12 +57,16 @@ public class PuntosService implements IPuntosService {
         DistanciaMinima distanciaMinima = null;
         switch (algoritmoElegido){
             case 0:
+                int n = nubePuntos.getCantidad();
+                int v= n*(n-1)/2;
+                controller.setMax(v);
                 tiempoTardado = System.currentTimeMillis();
                 distanciaMinima = naive(nubePuntos.getPuntos().clone(), nubePuntos.getCantidad());
                 distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
             case 1:
                 sorter.setPuntosOriginales(nubePuntos.getPuntos().clone());
+
                 if (!isPuntosOrdenados){
                     arrayPuntosOrdenados = ordenarPuntosPorCoordenadas(nubePuntos);
                     puntosOrdenadosCoordenadaX = arrayPuntosOrdenados.get(0);
@@ -70,7 +74,9 @@ public class PuntosService implements IPuntosService {
                     isPuntosOrdenados = true;
                 }
                 tiempoTardado = System.currentTimeMillis();
+                controller.barraGo();
                 distanciaMinima = divideConquerOnlogn2(puntosOrdenadosCoordenadaX.clone(), nubePuntos.getCantidad());
+                controller.barraStop();
                 distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
             case 2:
@@ -82,7 +88,9 @@ public class PuntosService implements IPuntosService {
                     isPuntosOrdenados = true;
                 }
                 tiempoTardado = System.currentTimeMillis();
+                controller.barraGo();
                 distanciaMinima = divideConquerOnlogn(puntosOrdenadosCoordenadaX.clone(), puntosOrdenadosCoordenadaY.clone(), nubePuntos.getCantidad());
+                controller.barraStop();
                 distanciaMinima.setTiempoTotal(System.currentTimeMillis() - tiempoTardado);
                 break;
         }
@@ -91,7 +99,6 @@ public class PuntosService implements IPuntosService {
 
     @Override
     public DistanciaMinima naive(Punto[] puntos, int n) {
-        controller.barraGo();
         DistanciaMinima distanciaMinima = null;
         double min_distance = Double.MAX_VALUE;
         double computedDistance;
@@ -100,21 +107,21 @@ public class PuntosService implements IPuntosService {
             Punto puntoActual = puntos[i];
             for (int j = i + 1; j < n; j++){
                 computedDistance = puntoActual.calcularDistanciaEuclidea(puntos[j]);
-                //incrementar barra progreso
-
+                //Aumento Barra
+                if(algoritmoElegido==0){
+                 controller.barraAct();
+                }
                 if (computedDistance < min_distance){
                     min_distance = computedDistance;
                     distanciaMinima = new DistanciaMinima(puntoActual, puntos[j], computedDistance);
                 }
             }
         }
-        controller.barraStop();
         return distanciaMinima;
     }
 
     @Override
     public DistanciaMinima divideConquerOnlogn2(Punto[] puntos, int n){
-        controller.barraGo();
         if (n <= 3){
             return naive(puntos, n);
         }
@@ -141,13 +148,13 @@ public class PuntosService implements IPuntosService {
                 puntosStrip++;
             }
         }
-        controller.barraStop();
+
         return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), false));
     }
 
     @Override
     public DistanciaMinima divideConquerOnlogn(Punto[] puntosX, Punto[] puntosY, int n){
-        controller.barraGo();
+
         if (n <= 3){
             return naive(puntosX, n);
         }
@@ -188,7 +195,7 @@ public class PuntosService implements IPuntosService {
                 puntosStrip++;
             }
         }
-        controller.barraStop();
+
         return min(distanciaMinima, stripClosest(toArray(stripList), puntosStrip, distanciaMinima.getDistanciaPuntos(), true));
     }
 

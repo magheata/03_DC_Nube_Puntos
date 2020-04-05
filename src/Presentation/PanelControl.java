@@ -170,4 +170,14 @@ BarraPoints.setIndeterminate(true);
         BarraPoints.setIndeterminate(false);
     }
 
+    public void barraAct(){
+        int v = BarraPoints.getValue();
+        BarraPoints.setValue(++v);
+    }
+
+    public void setmax(int v){
+        BarraPoints.setMaximum(v);
+        BarraPoints.setValue(0);
+    }
+
 }

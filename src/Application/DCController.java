@@ -235,6 +235,8 @@ public class DCController implements IController {
     public void setGraphPanel(GraphPanel graphPanel) { this.graphPanel = graphPanel; }
 
     public void setPanelControl(PanelControl panelControl) { this.panelControl = panelControl; }
+    public void barraAct(){panelControl.barraAct();}
+    public void setMax(int v){ panelControl.setmax(v);}
 
     public void setAlgoritmoElegido(int algoritmoElegido) { this.algoritmoElegido = algoritmoElegido; }
 
