@@ -5,7 +5,7 @@ import Application.DTO.DistanciaMinima;
 import java.util.concurrent.ExecutionException;
 
 public interface IController {
-    void updateGraph(double mean, double stdDeviation);
+    void updateGraph(double mean, double stdDeviation, boolean coordenadaX);
     void disableGaussianElements();
     void enableGaussianElements();
     void habilitarBotonesSorter();
@@ -16,4 +16,6 @@ public interface IController {
     void pintarPuntos();
     void setPuntoSolucion(DistanciaMinima distanciaMinima);
     void setearParametrosElegidos();
+    void disableButtons();
+    void enableButtons();
 }

@@ -53,12 +53,14 @@ public class PanelCoordenadas extends JPanel {
             g.drawLine((SIZE_GRAPH /2) + BORDER_GAP, BORDER_GAP, (SIZE_GRAPH /2) + BORDER_GAP, getHeight() - BORDER_GAP);
             g.drawLine(BORDER_GAP, (SIZE_GRAPH /2) + BORDER_GAP, getWidth() - BORDER_GAP, (SIZE_GRAPH /2) + BORDER_GAP);
             drawAxisLines(g, BORDER_GAP, (SIZE_GRAPH /2) + BORDER_GAP, (SIZE_GRAPH /2) + BORDER_GAP, BORDER_GAP, true);
-        // Si es distribución no gaussiana pintamos las coordenadas positivas
+
+            // Si es distribución no gaussiana pintamos las coordenadas positivas
         } else {
             g.setColor(Color.GRAY);
             g.drawLine(BORDER_GAP, SIZE_GRAPH + BORDER_GAP, BORDER_GAP, BORDER_GAP);
             g.drawLine(BORDER_GAP, BORDER_GAP, SIZE_GRAPH + BORDER_GAP, BORDER_GAP);
             drawAxisLines(g, BORDER_GAP, BORDER_GAP, BORDER_GAP, BORDER_GAP, false);
+
         }
         // En caso de que se quieran pintar los puntos se pintan (sólo se pintan cuando se ha empezado a ejecutar el proceso
         // de cálculo)

@@ -15,175 +15,131 @@ import java.awt.*;
  */
 public class BotonesGraph extends Botones{
 
-    private JButton increaseMeanButton, decreaseMeanButton, increaseVarianceButton, decreaseVarianceButton, incrementarPuntosButton, decrementarPuntosButton;
-    private JLabel puntosTotalesLabel, graphLabel, meanLabel, varianceLabel;
-    private JTextArea totalPointsTextArea, meanTextArea, varianceTextArea;
-
+    private JButton increaseMeanXButton, decreaseMeanXButton, increaseVarianceXButton, decreaseVarianceXButton;
+    private JLabel  meanXLabel, varianceXLabel, meanYLabel, varianceYLabel;
+    private JTextArea meanXTextArea, varianceXTextArea, meanYTextArea, varianceYTextArea;
+    private boolean coordenadaX = true;
     private DCController controller;
 
-    public BotonesGraph(DCController controller){
+    public BotonesGraph(DCController controller, boolean coordenadaX){
         super();
+        this.coordenadaX = coordenadaX;
         this.controller = controller;
-
-        graphLabel = new JLabel();
-        graphLabel.setVisible(true);
-        graphLabel.setText(Variables.LABEL_GRAPH);
-
-        inicializarElementosPuntos();
-
-        JPanel puntosTotalesPanel = new JPanel();
-        puntosTotalesPanel.setLayout(new FlowLayout());
-
-        puntosTotalesPanel.add(puntosTotalesLabel);
-        puntosTotalesPanel.add(decrementarPuntosButton);
-        puntosTotalesPanel.add(totalPointsTextArea);
-        puntosTotalesPanel.add(incrementarPuntosButton);
 
         inicializarElementosGaussianos();
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
 
-        buttonsPanel.add(meanLabel);
-        buttonsPanel.add(decreaseMeanButton);
-        buttonsPanel.add(meanTextArea);
-        buttonsPanel.add(increaseMeanButton);
+        buttonsPanel.add(meanXLabel);
+        buttonsPanel.add(decreaseMeanXButton);
+        buttonsPanel.add(meanXTextArea);
+        buttonsPanel.add(increaseMeanXButton);
         buttonsPanel.add(Box.createHorizontalStrut(20)); // Fixed width invisible separator.
-        buttonsPanel.add(varianceLabel);
-        buttonsPanel.add(decreaseVarianceButton);
-        buttonsPanel.add(varianceTextArea);
-        buttonsPanel.add(increaseVarianceButton);
+        buttonsPanel.add(varianceXLabel);
+        buttonsPanel.add(decreaseVarianceXButton);
+        buttonsPanel.add(varianceXTextArea);
+        buttonsPanel.add(increaseVarianceXButton);
 
-        JPanel buttonsWrapperPanel = new JPanel();
-        buttonsWrapperPanel.setLayout(new BorderLayout());
-        buttonsWrapperPanel.add(puntosTotalesPanel, BorderLayout.CENTER);
-        buttonsWrapperPanel.add(buttonsPanel, BorderLayout.SOUTH);
-
-        this.add(graphLabel, BorderLayout.NORTH);
-        this.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
-        this.add(buttonsWrapperPanel, BorderLayout.SOUTH);
+        this.add(buttonsPanel, BorderLayout.SOUTH);
         this.setVisible(true);
 
         deshabilitarElementosGaussianos();
     }
 
     private void inicializarElementosGaussianos(){
-        meanLabel = new JLabel();
-        meanLabel.setText("μ: ");
+        meanXLabel = new JLabel();
+        meanXLabel.setText(Variables.LABEL_MEAN);
 
-        varianceLabel = new JLabel();
-        varianceLabel.setText("σ: ");
+        varianceXLabel = new JLabel();
+        varianceXLabel.setText(Variables.LABEL_VARIANCE);
 
-        meanTextArea = new JTextArea();
-        meanTextArea.setText("0");
-        meanTextArea.setOpaque(false);
+        meanYLabel = new JLabel();
+        meanYLabel.setText(Variables.LABEL_MEAN);
 
-        varianceTextArea = new JTextArea();
-        varianceTextArea.setText("1");
-        varianceTextArea.setOpaque(false);
+        varianceYLabel = new JLabel();
+        varianceYLabel.setText(Variables.LABEL_VARIANCE);
+
+        meanXTextArea = new JTextArea();
+        meanXTextArea.setText("0");
+        meanXTextArea.setOpaque(false);
+
+        varianceXTextArea = new JTextArea();
+        varianceXTextArea.setText("1");
+        varianceXTextArea.setOpaque(false);
+
+        meanYTextArea = new JTextArea();
+        meanYTextArea.setText("0");
+        meanYTextArea.setOpaque(false);
+
+        varianceYTextArea = new JTextArea();
+        varianceYTextArea.setText("1");
+        varianceYTextArea.setOpaque(false);
 
         inicializarBotonesGaussianos();
     }
 
-    private void inicializarElementosPuntos(){
-        totalPointsTextArea = new JTextArea();
-        totalPointsTextArea.setText("1000");
-        totalPointsTextArea.setOpaque(false);
-
-        totalPointsTextArea = new JTextArea();
-        totalPointsTextArea.setText("1000");
-        totalPointsTextArea.setOpaque(false);
-
-        puntosTotalesLabel = new JLabel();
-        puntosTotalesLabel.setText(Variables.LABEL_PUNTOS_TOTALES);
-        inicializarBotonesPuntos();
-    }
-
-    private void inicializarBotonesPuntos(){
-        decrementarPuntosButton = new JButton();
-        decrementarPuntosButton.setText(Variables.LABEL_DECREMENTAR);
-        decrementarPuntosButton.addActionListener(e -> {
-            int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales <= Variables.PUNTOS_MIN)) {
-                puntosTotales = puntosTotales / 10;
-                totalPointsTextArea.setText(Integer.toString(puntosTotales));
-                controller.setTotalPuntos(puntosTotales);
-            }
-        });
-
-        incrementarPuntosButton = new JButton();
-        incrementarPuntosButton.setText(Variables.LABEL_INCREMENTAR);
-        incrementarPuntosButton.addActionListener(e -> {
-            int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
-            if (!(puntosTotales >= Variables.PUNTOS_MAX)) {
-                puntosTotales = puntosTotales * 10;
-                totalPointsTextArea.setText(Integer.toString(puntosTotales));
-                controller.setTotalPuntos(puntosTotales);
-            }
-        });
-    }
-
     private void inicializarBotonesGaussianos(){
-        increaseMeanButton = new JButton();
-        increaseMeanButton.setText(Variables.LABEL_INCREMENTAR);
-        increaseMeanButton.addActionListener(e -> {
-            int media = Integer.parseInt(meanTextArea.getText());
+        increaseMeanXButton = new JButton();
+        increaseMeanXButton.setText(Variables.LABEL_INCREMENTAR);
+        increaseMeanXButton.addActionListener(e -> {
+            int media = Integer.parseInt(meanXTextArea.getText());
             if (!(media >= Variables.MEAN_MAX)) {
                 media = media + 1;
-                meanTextArea.setText(Integer.toString(media));
-                controller.updateGraph(media, -99);
-                controller.setMediaPuntos(media);
+                meanXTextArea.setText(Integer.toString(media));
+                controller.updateGraph(media, -99, coordenadaX);
+                controller.setMediaPuntosX(media, coordenadaX);
             }
         });
 
-        decreaseMeanButton = new JButton();
-        decreaseMeanButton.setText(Variables.LABEL_DECREMENTAR);
-        decreaseMeanButton.addActionListener(e -> {
-            int media = Integer.parseInt(meanTextArea.getText());
+        decreaseMeanXButton = new JButton();
+        decreaseMeanXButton.setText(Variables.LABEL_DECREMENTAR);
+        decreaseMeanXButton.addActionListener(e -> {
+            int media = Integer.parseInt(meanXTextArea.getText());
             if (!(media <= -Variables.MEAN_MAX)) {
                 media = media - 1;
-                meanTextArea.setText(Integer.toString(media));
-                controller.updateGraph(media, -99);
-                controller.setMediaPuntos(media);
+                meanXTextArea.setText(Integer.toString(media));
+                controller.updateGraph(media, -99, coordenadaX);
+                controller.setMediaPuntosX(media, coordenadaX);
             }
         });
 
-        increaseVarianceButton = new JButton();
-        increaseVarianceButton.setText(Variables.LABEL_INCREMENTAR);
-        increaseVarianceButton.addActionListener(e -> {
-            double varianza = Double.parseDouble(varianceTextArea.getText());
+        increaseVarianceXButton = new JButton();
+        increaseVarianceXButton.setText(Variables.LABEL_INCREMENTAR);
+        increaseVarianceXButton.addActionListener(e -> {
+            double varianza = Double.parseDouble(varianceXTextArea.getText());
             if (!(varianza >= Variables.VARIANCE_MAX)) {
                 varianza = varianza + 0.25;
-                varianceTextArea.setText(Double.toString(varianza));
-                controller.updateGraph(-99, varianza);
-                controller.setVarianzaPuntos(varianza);
+                varianceXTextArea.setText(Double.toString(varianza));
+                controller.updateGraph(-99, varianza, coordenadaX);
+                controller.setVarianzaPuntosX(varianza, coordenadaX);
             }
         });
 
-        decreaseVarianceButton = new JButton();
-        decreaseVarianceButton.setText(Variables.LABEL_DECREMENTAR);
-        decreaseVarianceButton.addActionListener(e -> {
-            double varianza = Double.parseDouble(varianceTextArea.getText());
+        decreaseVarianceXButton = new JButton();
+        decreaseVarianceXButton.setText(Variables.LABEL_DECREMENTAR);
+        decreaseVarianceXButton.addActionListener(e -> {
+            double varianza = Double.parseDouble(varianceXTextArea.getText());
             if (!(varianza <= Variables.VARIANCE_MIN)) {
                 varianza = varianza - 0.25;
-                varianceTextArea.setText(Double.toString(varianza));
-                controller.updateGraph(-99, varianza);
-                controller.setVarianzaPuntos(varianza);
+                varianceXTextArea.setText(Double.toString(varianza));
+                controller.updateGraph(-99, varianza, coordenadaX);
+                controller.setVarianzaPuntosX(varianza, coordenadaX);
             }
         });
     }
 
     public void deshabilitarElementosGaussianos(){
-        decreaseMeanButton.setEnabled(false);
-        increaseMeanButton.setEnabled(false);
-        decreaseVarianceButton.setEnabled(false);
-        increaseVarianceButton.setEnabled(false);
+        decreaseMeanXButton.setEnabled(false);
+        increaseMeanXButton.setEnabled(false);
+        decreaseVarianceXButton.setEnabled(false);
+        increaseVarianceXButton.setEnabled(false);
     }
 
     public void habilitarElementosGaussianos(){
-        decreaseMeanButton.setEnabled(true);
-        increaseMeanButton.setEnabled(true);
-        decreaseVarianceButton.setEnabled(true);
-        increaseVarianceButton.setEnabled(true);
+        decreaseMeanXButton.setEnabled(true);
+        increaseMeanXButton.setEnabled(true);
+        decreaseVarianceXButton.setEnabled(true);
+        increaseVarianceXButton.setEnabled(true);
     }
 }

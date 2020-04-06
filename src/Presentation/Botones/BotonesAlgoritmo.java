@@ -64,5 +64,4 @@ public class BotonesAlgoritmo extends Botones{
     public int getAlgoritmoElegido() {
         return algoritmoElegido;
     }
-
 }

@@ -24,7 +24,8 @@ import java.util.concurrent.Future;
  */
 public class DCController implements IController {
 
-    private GraphPanel graphPanel;
+    private GraphPanel graphXPanel;
+    private GraphPanel graphYPanel;
     private PanelControl panelControl;
     private PuntosService puntosService;
     private Window window;
@@ -41,8 +42,10 @@ public class DCController implements IController {
     private int algoritmoElegido;
     private int sorterElegido;
     private int totalPuntos = 1000;
-    private double mediaPuntos;
-    private double varianzaPuntos;
+    private double mediaPuntosX;
+    private double varianzaPuntosX;
+    private double mediaPuntosY;
+    private double varianzaPuntosY;
     private boolean parametrosSeteados;
     private DistanciaMinima distanciaMinima;
     private boolean isGaussianDistribution;
@@ -61,8 +64,12 @@ public class DCController implements IController {
      * @param stdDeviation
      */
     @Override
-    public void updateGraph(double mean, double stdDeviation) {
-        graphPanel.updateGraphWithNewValues(mean, stdDeviation);
+    public void updateGraph(double mean, double stdDeviation, boolean coordenadaX) {
+        if (coordenadaX){
+            graphXPanel.updateGraphWithNewValues(mean, stdDeviation);
+        } else {
+            graphYPanel.updateGraphWithNewValues(mean, stdDeviation);
+        }
         puntosCambiados = true;
         nubePuntosCreada = false;
     }
@@ -119,7 +126,7 @@ public class DCController implements IController {
         nube = new Nube(totalPuntos);
         Future<Nube> future;
         if (isGaussianDistribution){
-            future = nube.crearNubePuntos(totalPuntos, mediaPuntos, varianzaPuntos);
+            future = nube.crearNubePuntos(totalPuntos, mediaPuntosX, varianzaPuntosX, mediaPuntosY, varianzaPuntosY);
         } else {
             future = nube.crearNubePuntosRandom(0, totalPuntos);
         }
@@ -191,6 +198,7 @@ public class DCController implements IController {
         window.UserMsg(distanciaMinima.toString(), false);
         panelPuntos.setTextStartButton("Empezar ejecución");
         parametrosSeteados = false;
+        enableButtons();
     }
 
     /**
@@ -218,10 +226,32 @@ public class DCController implements IController {
         }
     }
 
-    //region SETTERS Y GETTERS
-    public void setMediaPuntos(double mediaPuntos) { this.mediaPuntos = mediaPuntos; }
+    @Override
+    public void disableButtons() {
+        panelPuntos.disableButtons();
+    }
 
-    public void setVarianzaPuntos(double varianzaPuntos) { this.varianzaPuntos = varianzaPuntos; }
+    @Override
+    public void enableButtons() {
+        panelPuntos.enableButtons();
+    }
+
+    //region SETTERS Y GETTERS
+    public void setMediaPuntosX(double mediaPuntos, boolean coordenadaX) {
+        if (coordenadaX) {
+            this.mediaPuntosX = mediaPuntos;
+        } else {
+            this.mediaPuntosY = mediaPuntos;
+        }
+    }
+
+    public void setVarianzaPuntosX(double varianzaPuntos, boolean coordenadaX) {
+        if (coordenadaX) {
+            this.varianzaPuntosX = varianzaPuntos;
+        } else {
+            this.varianzaPuntosY = varianzaPuntos;
+        }
+    }
 
     public void setTotalPuntos(int totalPuntos) {
         this.totalPuntos = totalPuntos;
@@ -236,7 +266,9 @@ public class DCController implements IController {
 
     public void barraStop(){panelControl.barraStop();}
 
-    public void setGraphPanel(GraphPanel graphPanel) { this.graphPanel = graphPanel; }
+    public void setGraphXPanel(GraphPanel graphXPanel) { this.graphXPanel = graphXPanel; }
+
+    public void setGraphYPanel(GraphPanel graphYPanel) { this.graphYPanel = graphYPanel; }
 
     public void setPanelControl(PanelControl panelControl) { this.panelControl = panelControl; }
 

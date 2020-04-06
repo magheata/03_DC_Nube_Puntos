@@ -42,8 +42,8 @@ public class PanelPuntos extends JPanel{
                 controller.pintarPuntos();
                 // Comenzamos el proceso de cálculo de las distancias
                 controller.start();
+                startButton.setEnabled(false);
             }
-            startButton.setText(Variables.BTN_START_DETENER);
         });
         generarRandomButton = new JRadioButton();
         generarRandomButton.setText(Variables.BTN_RANDOM_TEXT);
@@ -84,5 +84,17 @@ public class PanelPuntos extends JPanel{
 
     public void setTextStartButton(String text){
         startButton.setText(text);
+    }
+
+    public void enableButtons() {
+        startButton.setEnabled(true);
+        generarRandomButton.setEnabled(true);
+        generarRandomDistribucionNormalButton.setEnabled(true);
+    }
+
+    public void disableButtons(){
+        startButton.setEnabled(false);
+        generarRandomButton.setEnabled(false);
+        generarRandomDistribucionNormalButton.setEnabled(false);
     }
 }

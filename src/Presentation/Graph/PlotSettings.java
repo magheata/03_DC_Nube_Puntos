@@ -105,24 +105,10 @@ public class PlotSettings implements Serializable {
     }
 
     /**
-     * Sets the minimum X value for plotting.
-     */
-    public void setMinX(double minX) {
-        this.minX = minX;
-    }
-
-    /**
      * Gets the maximum X value for plotting.
      */
     public double getMaxX() {
         return maxX;
-    }
-
-    /**
-     * Sets the maximum X value for plotting.
-     */
-    public void setMaxX(double maxX) {
-        this.maxX = maxX;
     }
 
     /**
@@ -135,9 +121,6 @@ public class PlotSettings implements Serializable {
     /**
      * Sets the minimum Y value for plotting
      */
-    public void setMinY(double minY) {
-        this.minY = minY;
-    }
 
     /**
      * Gets the maximum Y value for plotting
@@ -149,78 +132,13 @@ public class PlotSettings implements Serializable {
     /**
      * Sets the maximum Y value for plotting
      */
-    public void setMaxY(double maxY) {
-        this.maxY = maxY;
-    }
 
     public double getRangeX() {
         return maxX - minX;
     }
 
-    public double getRangeY() {
-        return maxY - minY;
-    }
-
-    /**
-     * Gets the top margin
-     */
-    public int getMarginTop() {
-        return marginTop;
-    }
-
-    /**
-     * Sets the top margin.
-     */
-    public void setMarginTop(int marginTop) {
-        this.marginTop = marginTop;
-    }
-
-    public int getMarginBottom() {
-        return marginBottom;
-    }
-
-    public void setMarginBottom(int marginBottom) {
-        this.marginBottom = marginBottom;
-    }
-
     public int getMarginLeft() {
         return marginLeft;
-    }
-
-    public void setMarginLeft(int marginLeft) {
-        this.marginLeft = marginLeft;
-    }
-
-    public int getMarginRight() {
-        return marginRight;
-    }
-
-    public void setMarginRight(int marginRight) {
-        this.marginRight = marginRight;
-    }
-
-    public Color getAxisColor() {
-        return axisColor;
-    }
-
-    public void setAxisColor(Color axisColor) {
-        this.axisColor = axisColor;
-    }
-
-    public Color getFontColor() {
-        return fontColor;
-    }
-
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
     }
 
     public Color getPlotColor() {
@@ -231,75 +149,13 @@ public class PlotSettings implements Serializable {
         this.plotColor = plotColor;
     }
 
-    public Color getGridColor() {
-        return gridColor;
-    }
-
-    public void setGridColor(Color gridColor) {
-        this.gridColor = gridColor;
-    }
-
-    public int getNotchLength() {
-        return notchLength;
-    }
-
-    public void setNotchLength(int notchLength) {
-        this.notchLength = notchLength;
-    }
-
-    public int getNotchGap() {
-        return notchGap;
-    }
-
-    public void setNotchGap(int notchGap) {
-        this.notchGap = notchGap;
-    }
-
-    public boolean isHorizontalGridVisible() {
-        return horizontalGridVisible;
-    }
-
-    public void setHorizontalGridVisible(boolean horizontalGridVisible) {
-        this.horizontalGridVisible = horizontalGridVisible;
-    }
-
-    public boolean isVerticalGridVisible() {
-        return verticalGridVisible;
-    }
-
-    public void setVerticalGridVisible(boolean verticalGridVisible) {
-        this.verticalGridVisible = verticalGridVisible;
-    }
-
-    public Format getNumberFormatter() {
-        return numberFormatter;
-    }
-
-    public void setNumberFormatter(Format numberFormatter) {
-        this.numberFormatter = numberFormatter;
-    }
-
-    public double getGridSpacingX() {
-        return gridSpacingX;
-    }
-
     public void setGridSpacingX(double gridSpacingX) {
         this.gridSpacingX = gridSpacingX;
     }
 
-    public double getGridSpacingY() {
-        return gridSpacingY;
-    }
 
     public void setGridSpacingY(double gridSpacingY) {
         this.gridSpacingY = gridSpacingY;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }
