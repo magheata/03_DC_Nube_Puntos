@@ -31,21 +31,24 @@ public class Nube implements INube {
         this.puntos = new Punto[cantidad];
     }
 
+
     /**
      * Método que crea los puntos siguiendo una distribución gaussiana
      * @param cantidad
-     * @param media
-     * @param desviacion
+     * @param mediaX
+     * @param desviacionX
+     * @param mediaY
+     * @param desviacionY
      * @return
      */
     @Override
-    public Future<Nube> crearNubePuntos (int cantidad, double media, double desviacion) {
+    public Future<Nube> crearNubePuntos(int cantidad, double mediaX, double desviacionX, double mediaY, double desviacionY) {
         return executor.submit(() -> {
             double coordenadaX;
             double coordenadaY;
             for (int i = 0; i < cantidad; i++){
-                coordenadaX = generateRandomCoordinate(media, desviacion);
-                coordenadaY = generateRandomCoordinate(media, desviacion);
+                coordenadaX = generateRandomCoordinate(mediaX, desviacionX);
+                coordenadaY = generateRandomCoordinate(mediaY, desviacionY);
                 if (coordenadaX < minX){
                     minX = coordenadaX;
                 }

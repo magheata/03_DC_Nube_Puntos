@@ -28,6 +28,9 @@ public class Variables {
     public static final String LABEL_ALGORITMO = "COMPLEJIDAD DEL ALGORITMO";
     public static final String LABEL_INCREMENTAR = "+";
     public static final String LABEL_DECREMENTAR = "-";
+    public static final String LABEL_MEAN = "μ: ";
+    public static final String LABEL_VARIANCE = "σ: ";
+
 
     public static final Color colorPuntos = new Color(0.5f,0f,1f,.25f );
     public static final Color colorPuntosSolucion = new Color(0f,1f,0f);

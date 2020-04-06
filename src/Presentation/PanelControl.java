@@ -27,12 +27,18 @@ public class PanelControl extends JPanel {
 
     public BotonesAlgoritmo botonesAlgoritmoPanel;
     public BotonesSorter botonesSorterPanel;
-    public BotonesGraph botonesGraphPanel;
-    protected GraphPanel graphPanel;
+    public BotonesGraph botonesGraphXPanel;
+    public BotonesGraph botonesGraphYPanel;
+    protected GraphPanel graphXPanel, graphYPanel;
     protected JProgressBar BarraPointsIterative;
     protected JProgressBar BarraPointsRecursive;
+    protected JTabbedPane grafosDensidadTabbedPane;
 
     private DCController controller;
+
+    private JLabel puntosTotalesLabel, graphLabel;
+    private JTextArea totalPointsTextArea;
+    private JButton incrementarPuntosButton, decrementarPuntosButton;
 
     // Rango del gráfico de densidad de los puntos
     private int xMinPlotSettings = Variables.xMinPlotSettings;
@@ -59,7 +65,9 @@ public class PanelControl extends JPanel {
     private void initComponents(){
         this.setLayout(new GridBagLayout());
 
-        JPanel panel = new JPanel();
+        JPanel mainPanel = new JPanel();
+
+        inicializarElementosPuntos();
 
         GridBagConstraints constraintsPanel = new GridBagConstraints();
 
@@ -69,7 +77,8 @@ public class PanelControl extends JPanel {
         constraintsPanel.gridx = 0;
         constraintsPanel.gridy = 0;
 
-        panel.setLayout(new GridBagLayout());
+        mainPanel.setLayout(new GridBagLayout());
+
         GridBagConstraints constraintsGraphWrapperPanel = new GridBagConstraints();
         constraintsGraphWrapperPanel.fill = GridBagConstraints.HORIZONTAL;
         constraintsGraphWrapperPanel.anchor = GridBagConstraints.PAGE_START;
@@ -77,7 +86,7 @@ public class PanelControl extends JPanel {
         constraintsGraphWrapperPanel.gridx = 0;
         constraintsGraphWrapperPanel.gridy = 0;
 
-        //region BOTONES ALGORITMO
+        //region ALGORITMO PANEL
         botonesAlgoritmoPanel = new BotonesAlgoritmo(controller);
 
         GridBagConstraints constraintsAlgoritmoPanel = new GridBagConstraints();
@@ -85,20 +94,9 @@ public class PanelControl extends JPanel {
         constraintsAlgoritmoPanel.gridwidth = 3;
         constraintsAlgoritmoPanel.gridx = 0;
         constraintsAlgoritmoPanel.gridy = 1;
-
-        BarraPointsIterative = new JProgressBar();
-        BarraPointsRecursive = new JProgressBar();
-
         //endregion
 
-        constraintsBarraPoints = new GridBagConstraints();
-        constraintsBarraPoints.fill = GridBagConstraints.HORIZONTAL;
-        constraintsBarraPoints.gridwidth = 3;
-        constraintsBarraPoints.gridheight = 1;
-        constraintsBarraPoints.gridx = 0;
-        constraintsBarraPoints.gridy = 2;
-
-        //region BOTONES SORTER
+        //region SORTER PANEL
         botonesSorterPanel = new BotonesSorter();
 
         GridBagConstraints constraintsBotonesSorterPanel = new GridBagConstraints();
@@ -109,10 +107,23 @@ public class PanelControl extends JPanel {
         constraintsBotonesSorterPanel.gridy = 2;
         //endregion
 
-        panel.add(botonesAlgoritmoPanel, constraintsAlgoritmoPanel);
-        panel.add(botonesSorterPanel, constraintsBotonesSorterPanel);
-        panel.add(addGraphToPanel(), constraintsGraphWrapperPanel);
-        this.add(panel, constraintsPanel);
+        mainPanel.add(botonesAlgoritmoPanel, constraintsAlgoritmoPanel);
+        mainPanel.add(botonesSorterPanel, constraintsBotonesSorterPanel);
+        mainPanel.add(addDefinicionDatosElements(), constraintsGraphWrapperPanel);
+
+        this.add(mainPanel, constraintsPanel);
+
+        //region PROGRESS BARS
+        BarraPointsIterative = new JProgressBar();
+        BarraPointsRecursive = new JProgressBar();
+
+        constraintsBarraPoints = new GridBagConstraints();
+        constraintsBarraPoints.fill = GridBagConstraints.HORIZONTAL;
+        constraintsBarraPoints.gridwidth = 3;
+        constraintsBarraPoints.gridheight = 1;
+        constraintsBarraPoints.gridx = 0;
+        constraintsBarraPoints.gridy = 2;
+
         if (controller.getAlgoritmoElegido() == 0){
             this.add(BarraPointsIterative, constraintsBarraPoints);
         } else if (controller.getAlgoritmoElegido() == 0 && controller.getPuntosNube().length == 100000){
@@ -120,6 +131,7 @@ public class PanelControl extends JPanel {
         } else {
             this.add(BarraPointsRecursive, constraintsBarraPoints);
         }
+        //endregion
         this.setVisible(true);
     }
 
@@ -132,32 +144,96 @@ public class PanelControl extends JPanel {
             this.add(BarraPointsIterative, constraintsBarraPoints);
         }
     }
+
+
+    private JPanel addDefinicionDatosElements(){
+        JPanel panelDefinicionDatos = new JPanel();
+        panelDefinicionDatos.setLayout(new BorderLayout());
+        graphLabel = new JLabel();
+        graphLabel.setVisible(true);
+        graphLabel.setText(Variables.LABEL_GRAPH);
+
+        JPanel panelLabel = new JPanel();
+        panelLabel.setLayout(new BorderLayout());
+        panelLabel.add(graphLabel, BorderLayout.NORTH);
+        panelLabel.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.CENTER);
+
+        panelDefinicionDatos.add(panelLabel, BorderLayout.NORTH);
+        panelDefinicionDatos.add(addPanelTotalPuntos(), BorderLayout.CENTER);
+        panelDefinicionDatos.add(addGraphToPanel(), BorderLayout.SOUTH);
+        return panelDefinicionDatos;
+    }
+
+    private JPanel addPanelTotalPuntos(){
+        JPanel puntosTotalesPanel = new JPanel();
+        puntosTotalesPanel.setLayout(new FlowLayout());
+
+        puntosTotalesPanel.add(puntosTotalesLabel);
+        puntosTotalesPanel.add(decrementarPuntosButton);
+        puntosTotalesPanel.add(totalPointsTextArea);
+        puntosTotalesPanel.add(incrementarPuntosButton);
+
+        this.add(puntosTotalesPanel);
+        return puntosTotalesPanel;
+    }
+
+    private void inicializarElementosPuntos(){
+        totalPointsTextArea = new JTextArea();
+        totalPointsTextArea.setText("1000");
+        totalPointsTextArea.setEditable(false);
+        totalPointsTextArea.setOpaque(false);
+        puntosTotalesLabel = new JLabel();
+        puntosTotalesLabel.setText(Variables.LABEL_PUNTOS_TOTALES);
+        inicializarBotonesPuntos();
+    }
+
+    private void inicializarBotonesPuntos(){
+        decrementarPuntosButton = new JButton();
+        decrementarPuntosButton.setText(Variables.LABEL_DECREMENTAR);
+        decrementarPuntosButton.addActionListener(e -> {
+            int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
+            if (!(puntosTotales <= Variables.PUNTOS_MIN)) {
+                puntosTotales = puntosTotales / 10;
+                totalPointsTextArea.setText(Integer.toString(puntosTotales));
+                controller.setTotalPuntos(puntosTotales);
+            }
+        });
+
+        incrementarPuntosButton = new JButton();
+        incrementarPuntosButton.setText(Variables.LABEL_INCREMENTAR);
+        incrementarPuntosButton.addActionListener(e -> {
+            int puntosTotales = Integer.parseInt(totalPointsTextArea.getText());
+            if (!(puntosTotales >= Variables.PUNTOS_MAX)) {
+                puntosTotales = puntosTotales * 10;
+                totalPointsTextArea.setText(Integer.toString(puntosTotales));
+                controller.setTotalPuntos(puntosTotales);
+            }
+        });
+    }
     /**
      * Función que añade el gráfico de densidad a la ventana
      * @return
      */
     private JPanel addGraphToPanel(){
 
-        JPanel graphPanelWrapper = new JPanel();
+        grafosDensidadTabbedPane = new JTabbedPane();
 
-        graphPanelWrapper.setLayout(new GridBagLayout());
+        JPanel graphXPanelWrapper = new JPanel();
+        graphXPanelWrapper.setLayout(new GridBagLayout());
+        botonesGraphXPanel = new BotonesGraph(controller, true);
+        graphXPanel = new GraphPanel();
+        controller.setGraphXPanel(graphXPanel);
 
-        botonesGraphPanel = new BotonesGraph(controller);
+        JPanel graphYPanelWrapper = new JPanel();
+        graphYPanelWrapper.setLayout(new GridBagLayout());
+        botonesGraphYPanel = new BotonesGraph(controller, false);
+        graphYPanel = new GraphPanel();
+        controller.setGraphYPanel(graphYPanel);
 
-        //region GraphPanel
-        PlotSettings plotSettings = new PlotSettings(xMinPlotSettings, xMaxPlotSettings, yMinPlotSettings, yMaxPlotSettings);
-        plotSettings.setPlotColor(Color.RED);
-        plotSettings.setGridSpacingX(0.5);
-        plotSettings.setGridSpacingY(0.5);
+        grafosDensidadTabbedPane.addTab("Coordenada X", graphXPanelWrapper);
 
-        graphPanel = new GraphPanel();
-        controller.setGraphPanel(graphPanel);
-        graphPanel.setGraph(new Graph(plotSettings, definedAverage, definedVariance));
-        // default size of the window, the Graph Panel will be slightly smaller.
-        graphPanel.setVisible(true);
-        //endregion
+        grafosDensidadTabbedPane.addTab("Coordenada Y", graphYPanelWrapper);
 
-        //region GridBagConstraints
         GridBagConstraints constraintsGraphButtons = new GridBagConstraints();
         constraintsGraphButtons.fill = GridBagConstraints.HORIZONTAL;
         constraintsGraphButtons.gridwidth = 3;
@@ -165,35 +241,61 @@ public class PanelControl extends JPanel {
         constraintsGraphButtons.gridx = 0;
         constraintsGraphButtons.gridy = 0;
 
+        JPanel panel = new JPanel();
+
+        //region GraphPanel
+        PlotSettings plotSettingsX = new PlotSettings(xMinPlotSettings, xMaxPlotSettings, yMinPlotSettings, yMaxPlotSettings);
+        plotSettingsX.setPlotColor(Color.RED);
+        plotSettingsX.setGridSpacingX(0.5);
+        plotSettingsX.setGridSpacingY(0.5);
+
+        PlotSettings plotSettingsY = new PlotSettings(xMinPlotSettings, xMaxPlotSettings, yMinPlotSettings, yMaxPlotSettings);
+        plotSettingsY.setPlotColor(Color.BLUE);
+        plotSettingsY.setGridSpacingX(0.5);
+        plotSettingsY.setGridSpacingY(0.5);
+
+        graphXPanel.setGraph(new Graph(plotSettingsX, definedAverage, definedVariance));
+        // default size of the window, the Graph Panel will be slightly smaller.
+        graphXPanel.setVisible(true);
+
+        graphYPanel.setGraph(new Graph(plotSettingsY, definedAverage, definedVariance));
+        // default size of the window, the Graph Panel will be slightly smaller.
+        graphYPanel.setVisible(true);
+        //endregion
+
+        //region GridBagConstraints
+
         GridBagConstraints constraintsGraphWrapperPanel = new GridBagConstraints();
         constraintsGraphWrapperPanel.fill = GridBagConstraints.HORIZONTAL;
-        constraintsGraphButtons.anchor = GridBagConstraints.CENTER;
+        constraintsGraphWrapperPanel.anchor = GridBagConstraints.CENTER;
         constraintsGraphWrapperPanel.gridwidth = 3;
         constraintsGraphWrapperPanel.gridheight = 2;
         constraintsGraphWrapperPanel.gridx = 0;
         constraintsGraphWrapperPanel.gridy = 1;
         //endregion
 
-        graphPanelWrapper.add(botonesGraphPanel, constraintsGraphButtons);
-        graphPanelWrapper.add(graphPanel, constraintsGraphWrapperPanel);
-        return graphPanelWrapper;
+        graphXPanelWrapper.add(graphXPanel, constraintsGraphWrapperPanel);
+        graphYPanelWrapper.add(graphYPanel, constraintsGraphWrapperPanel);
+        graphXPanelWrapper.add(botonesGraphXPanel, constraintsGraphButtons);
+        graphYPanelWrapper.add(botonesGraphYPanel, constraintsGraphButtons);
+
+        panel.add(grafosDensidadTabbedPane);
+        return panel;
     }
 
     public void disableGaussianElements(){
-        botonesGraphPanel.deshabilitarElementosGaussianos();
+        botonesGraphXPanel.deshabilitarElementosGaussianos();
+        botonesGraphYPanel.deshabilitarElementosGaussianos();
     }
 
     public void enableGaussianElements(){
-        botonesGraphPanel.habilitarElementosGaussianos();
+        botonesGraphXPanel.habilitarElementosGaussianos();
+        botonesGraphYPanel.habilitarElementosGaussianos();
     }
 
-    public void disableBotonesSorter(){
-        botonesSorterPanel.disableBotonesSorter();
-    }
+    public void disableBotonesSorter(){ botonesSorterPanel.disableBotonesSorter(); }
 
-    public void enableBotonesSorter(){
-        botonesSorterPanel.enableBotonesSorter();
-    }
+    public void enableBotonesSorter(){ botonesSorterPanel.enableBotonesSorter(); }
 
     public int getAlgoritmoElegido(){
         return botonesAlgoritmoPanel.getAlgoritmoElegido();
