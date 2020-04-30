@@ -18,7 +18,7 @@ public class Variables {
     public static final String BTN_GAUSSIAN_TEXT = "Distribución Gaussiana";
 
     public static final String[] nombresBotonesSorter = {"Collections.sort()", "Quicksort", "Mergesort", "Bucketsort"};
-    public static final String[] nombresBotonesAlgoritmo = {"O(n^2)", "O((n·logn)^2)", "O(n·logn)"};
+    public static final String[] nombresBotonesAlgoritmo = {"O(n^2)", "O(n*2*logn)", "O(n·logn)"};
     public static  String[] pathsSort = {"Infrastructure.SortingAlgorithms.Javasort", "Infrastructure.SortingAlgorithms.Quicksort",
             "Infrastructure.SortingAlgorithms.Mergesort", "Infrastructure.SortingAlgorithms.Bucketsort"};
 
